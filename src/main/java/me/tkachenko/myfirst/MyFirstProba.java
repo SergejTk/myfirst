@@ -6,6 +6,8 @@ package me.tkachenko.myfirst;
 public class MyFirstProba {
 
     public static void main(String[] args){
+        RecordPeople recordPeople = new RecordPeople();
+        recordPeople.record();
 
     }
 }

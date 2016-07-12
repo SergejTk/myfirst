@@ -22,7 +22,7 @@
         <property name="current_session_context_class">thread</property>
 
 
-        <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
+        <property name="cache.provider_class">org.hibernate.cache.internal.NoCachingRegionFactory</property>
 
         <!-- Вывод в консоль SQL-запросов -->
         <property name="show_sql">true</property>
