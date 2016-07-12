@@ -41,15 +41,15 @@ public class RecordPeople {
     @Column(name = "def")
     private int def;
 
-    private String[] names = new String[]{"Vanja", "Petja", "Pafnutiy", "Modest", "Osja", "Lev"};
-    private String[] firstnames = new String[]{"Pupkin", "Aaa", "Bbb", "Ccc", "Ddd", "Fff", "Ggg", "Hhh"};
-    private String[] lastnames = new String[]{"Qwer", "Asdf", "Zxcv", "Bnmm", "Jkld"};
 
-    public void record(){
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session session = sessionFactory.openSession();
+    public void record(int i, Session session){
 
-        for(int i = 1; i <= 20; i++) {
+         String[] names = new String[]{"Vanja", "Petja", "Pafnutiy", "Modest", "Osja", "Lev"};
+         String[] firstnames = new String[]{"Pupkin", "Aaa", "Bbb", "Ccc", "Ddd", "Fff", "Ggg", "Hhh"};
+         String[] lastnames = new String[]{"Qwer", "Asdf", "Zxcv", "Bnmm", "Jkld"};
+
+
+
             Transaction tx = session.beginTransaction();
 
             name = names[i % names.length];
@@ -58,9 +58,11 @@ public class RecordPeople {
             def = i;
 
             session.save(this);
+            //session.flush();
             tx.commit();
-        }
-        session.close();
+
+
+
     }
 
 
