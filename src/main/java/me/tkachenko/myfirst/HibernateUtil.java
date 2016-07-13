@@ -14,7 +14,7 @@ public class HibernateUtil {
     static {
         Configuration cfg = new Configuration().configure();
 
-        cfg.addAnnotatedClass(RecordPeople.class);
+        cfg.addAnnotatedClass(Worker.class);
 
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(cfg.getProperties());
 
