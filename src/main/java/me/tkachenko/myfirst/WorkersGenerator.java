@@ -17,8 +17,7 @@ public class WorkersGenerator {
 
     public static void main(String[] args){
 
-        //SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        //Session session = sessionFactory.openSession();
+
         String[] names = new String[]{"Vanja", "Petja", "Pafnutiy", "Modest", "Osja", "Lev"};
         String[] firstnames = new String[]{"Pupkin", "Aaa", "Bbb", "Ccc", "Ddd", "Fff", "Ggg", "Hhh"};
         String[] lastnames = new String[]{"Qwer", "Asdf", "Zxcv", "Bnmm", "Jkld"};
@@ -27,9 +26,6 @@ public class WorkersGenerator {
         String path = "C:\\workers.csv";
         if(args.length != 0) path = args[0];
 
-
-        //Transaction tx = session.beginTransaction();
-        //session.flush();
 
         try (PrintWriter pw = new PrintWriter(path))
        {
@@ -42,7 +38,7 @@ public class WorkersGenerator {
                 worker.setKurs(r.nextInt(4) + 1);
                 worker.setNumberinv(Math.abs(r.nextInt()));
                 worker.setBall(r.nextInt(9) +1);
-                worker.setAbc(dateGenerator());
+                worker.setAbc(generateDate());
                 worker.setDef(i);
                 pw.printf("%s,%s,%s,%d,%s,%d,%d,%d,%tF,%d\n" ,
 
@@ -52,18 +48,15 @@ public class WorkersGenerator {
 
 
             }
-            //session.save(worker);
-            //tx.commit();
 
-        }catch (IOException e){
+
+       }catch (IOException e){
             System.out.println(e.getMessage());
         }
 
-        //session.close();
-        //sessionFactory.close();
-
     }
-    private static Date dateGenerator(){
+
+    private static Date generateDate() {
         Random random = new Random();
         int year = 1985 + random.nextInt(15);
         int month = random.nextInt(11);

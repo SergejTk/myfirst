@@ -1,9 +1,8 @@
 package me.tkachenko.myfirst;
 
 
-
-import javax.persistence.Entity;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
@@ -25,17 +24,17 @@ public class Worker {
     @Column(name = "lastname")
     private String lastname;
     @Column(name = "groups")
-    private int groups = 3;
+    private int groups;
     @Column(name = "adr")
     private String adr = "Gadukino_city";
     @Column(name = "kurs")
-    private int kurs = 1;
+    private int kurs;
     @Column(name = "ball")
-    private int ball = 3;
+    private int ball;
     @Column(name = "numberinv")
-    private int numberinv = 2325;
+    private int numberinv;
     @Column(name = "abc")
-    private Date abc = new Date(1992, 7, 12);
+    private Date abc;
     @Id
     @Column(name = "def")
     private int def;
