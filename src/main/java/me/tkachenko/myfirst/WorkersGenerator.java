@@ -15,7 +15,7 @@ import java.util.Random;
  */
 public class WorkersGenerator {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
 
         String[] names = new String[]{"Vanja", "Petja", "Pafnutiy", "Modest", "Osja", "Lev"};
@@ -24,23 +24,22 @@ public class WorkersGenerator {
 
         Random r = new Random();
         String path = "C:\\workers.csv";
-        if(args.length != 0) path = args[0];
+        if (args.length != 0) path = args[0];
 
 
-        try (PrintWriter pw = new PrintWriter(path))
-       {
+        try (PrintWriter pw = new PrintWriter(path)) {
 
-            for(int i = 1; i <= 20; i++) {
+            for (int i = 1; i <= 20; i++) {
                 Worker worker = new Worker();
                 worker.setName(names[i % names.length]);
                 worker.setFirstname(firstnames[i % firstnames.length]);
                 worker.setLastname(lastnames[i % lastnames.length]);
                 worker.setKurs(r.nextInt(4) + 1);
                 worker.setNumberinv(Math.abs(r.nextInt()));
-                worker.setBall(r.nextInt(9) +1);
+                worker.setBall(r.nextInt(9) + 1);
                 worker.setAbc(generateDate());
                 worker.setDef(i);
-                pw.printf("%s,%s,%s,%d,%s,%d,%d,%d,%tF,%d\n" ,
+                pw.printf("%s,%s,%s,%d,%s,%d,%d,%d,%tF,%d\n",
 
                         worker.getName(), worker.getFirstname(), worker.getLastname(), worker.getGroups(),
                         worker.getAdr(), worker.getKurs(), worker.getBall(), worker.getNumberinv(),
@@ -50,7 +49,7 @@ public class WorkersGenerator {
             }
 
 
-       }catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 

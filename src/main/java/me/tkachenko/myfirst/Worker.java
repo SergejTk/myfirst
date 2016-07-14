@@ -12,7 +12,6 @@ import java.util.Date;
  */
 
 
-
 // заполнение таблицы БД
 @Entity
 @Table(name = "workers")
