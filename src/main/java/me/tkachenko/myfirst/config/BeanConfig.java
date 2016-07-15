@@ -5,6 +5,8 @@ package me.tkachenko.myfirst.config;
  */
 
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,7 +14,15 @@ import org.springframework.context.annotation.Configuration;
 public class BeanConfig {
 
     @Bean
-    ReaderFromDB readerFromDB() {
-        return new ReaderFromDB();
+    DBReader dbReader() {
+
+        return new DBReader() {
+            public Session getSession() {
+                SessionFactory sessionFactory = null;
+                return sessionFactory.getCurrentSession();
+
+            }
+
+        };
     }
 }
