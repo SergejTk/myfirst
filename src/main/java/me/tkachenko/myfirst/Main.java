@@ -16,8 +16,8 @@ public class Main {
         List<Worker> list;
         ApplicationContext context =
                 new AnnotationConfigApplicationContext(BeanConfig.class);
-        WorkersDAOListAllWorkers test = (WorkersDAOListAllWorkers) context.getBean("getListAllWorkers");
-        list = test.getListWorkers();
+        WorkersDAO test = (WorkersDAO) context.getBean("getListAllWorkers");
+        list = test.getAllWorkers();
 
     }
 }
