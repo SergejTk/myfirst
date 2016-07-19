@@ -1,4 +1,4 @@
-package me.tkachenko.myfirst;
+package me.tkachenko.myfirst.workersgenerator;
 
 //import org.hibernate.Session;
 //import org.hibernate.SessionFactory;
@@ -15,7 +15,7 @@ import java.util.Random;
  */
 public class WorkersGenerator {
 
-    public static void main(String[] args) {
+    public static void createWorker(String... args) {
 
 
         String[] names = new String[]{"Vanja", "Petja", "Pafnutiy", "Modest", "Osja", "Lev"};

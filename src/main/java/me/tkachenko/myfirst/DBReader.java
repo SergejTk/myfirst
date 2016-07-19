@@ -1,4 +1,4 @@
-package me.tkachenko.myfirst.config;
+package me.tkachenko.myfirst;
 
 import org.hibernate.SessionFactory;
 

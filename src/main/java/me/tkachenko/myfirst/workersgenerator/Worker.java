@@ -1,4 +1,4 @@
-package me.tkachenko.myfirst;
+package me.tkachenko.myfirst.workersgenerator;
 
 
 import javax.persistence.Column;

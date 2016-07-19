@@ -1,49 +1,39 @@
 package me.tkachenko.myfirst.config;
 
-/**
- * Created by ִלטענטי on 14.07.2016.
- */
-
-
-import org.hibernate.SessionFactory;
+import me.tkachenko.myfirst.DBReader;
+import me.tkachenko.myfirst.WorkersDAO;
+import me.tkachenko.myfirst.dbreader.DBReaderImpl;
+import me.tkachenko.myfirst.workersgenerator.Worker;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
-import java.util.Properties;
+import java.util.List;
 
+/**
+ * Created by ִלטענטי on 19.07.2016.
+ */
 @Configuration
-//@PropertySources( {"classpath:DBProperties.properties" })
 public class BeanConfig {
     @Autowired
-    private Environment env;
+    DBReader reader;
 
-    @Bean
-    DBReader dbReader() {
+    @Bean(name = "createSF")
+    public DBReader dbReader() {
+        return new DBReaderImpl();
+    }
 
-        return new DBReader() {
-            @Override
-            public SessionFactory getSessionFactory() {
-                LocalSessionFactoryBean localSessionFactoryBean = new LocalSessionFactoryBean();
-                SessionFactory sessionFactory;
-                //
+    @Bean(name = "getListAllWorkers")
+    public WorkersDAO workersDAO() {
 
-                localSessionFactoryBean.setHibernateProperties(hibernateProperties());
-                sessionFactory = localSessionFactoryBean.getObject();
-                return sessionFactory;
+        return new WorkersDAO() {
+            public List<Worker> getAllWorkers() {
+                Session session;
+                session = reader.getSessionFactory().getCurrentSession();
+                return session.createQuery("SELECT * FROM  workers").list();
             }
         };
     }
 
-    Properties hibernateProperties() {
-        return new Properties() {
-            {
-                setProperty("hibernate.hbm2ddl.auto", "update");
-                setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL94Dialect");
-                setProperty("hibernate.globally_quoted_identifiers", "true");
-            }
-        };
-    }
 }
