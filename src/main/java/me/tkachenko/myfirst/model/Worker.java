@@ -118,4 +118,9 @@ public class Worker {
     public void setDef(int def) {
         this.def = def;
     }
+
+    @Override
+    public String toString() {
+        return "  " + name + "  " + firstname + "  " + lastname + "  " + abc + "  " + def;
+    }
 }

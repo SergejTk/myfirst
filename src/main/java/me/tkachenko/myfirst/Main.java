@@ -19,6 +19,7 @@ public class Main {
                 new AnnotationConfigApplicationContext(BeanConfig.class);
         WorkersDAO test = (WorkersDAO) context.getBean("getListAllWorkers");
         list = test.getAllWorkers();
-
+        for (Worker worker : list)
+            System.out.println(worker);
     }
 }

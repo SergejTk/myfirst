@@ -12,6 +12,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -20,6 +21,7 @@ import java.util.Properties;
  * Created by ִלטענטי on 19.07.2016.
  */
 @Configuration
+@EnableTransactionManagement
 @PropertySource({"classpath:DBProperties.properties"})
 public class BeanConfig {
 
