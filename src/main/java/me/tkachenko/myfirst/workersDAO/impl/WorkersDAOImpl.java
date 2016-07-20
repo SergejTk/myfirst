@@ -4,14 +4,14 @@ import me.tkachenko.myfirst.model.Worker;
 import me.tkachenko.myfirst.workersDAO.WorkersDAO;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * Created by ִלטענטי on 19.07.2016.
  */
-@Component
+@Repository
 public class WorkersDAOImpl implements WorkersDAO {
     @Autowired
     SessionFactory sessionFactory;
