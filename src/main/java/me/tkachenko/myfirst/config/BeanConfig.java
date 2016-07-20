@@ -1,17 +1,19 @@
 package me.tkachenko.myfirst.config;
 
 
-import me.tkachenko.myfirst.WorkersDAO;
-import me.tkachenko.myfirst.WorkersDAOImpl;
-import me.tkachenko.myfirst.workersgenerator.Worker;
+import me.tkachenko.myfirst.workersDAO.WorkersDAO;
+import me.tkachenko.myfirst.workersDAO.impl.WorkersDAOImpl;
+import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
+import javax.sql.DataSource;
 import java.util.Properties;
 
 /**
@@ -25,16 +27,34 @@ public class BeanConfig {
     private Environment env;
 
     @Bean(name = "createSF")
-    public SessionFactory getSessionFactory() {
-        LocalSessionFactoryBean localSessionFactoryBean = new LocalSessionFactoryBean();
-        SessionFactory sessionFactory;
+    public LocalSessionFactoryBean sessionFactory() {
+        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 
-        org.hibernate.cfg.Configuration cnf = new org.hibernate.cfg.Configuration().configure();
-        cnf.addAnnotatedClass(Worker.class);
+        sessionFactory.setDataSource(restDataSource());
+        sessionFactory.setPackagesToScan(new String[]{"me.tkachenko.myfirst.model"});
+        sessionFactory.setHibernateProperties(hibernateProperties());
 
-        localSessionFactoryBean.setHibernateProperties(hibernateProperties());
-        sessionFactory = localSessionFactoryBean.getObject();
         return sessionFactory;
+    }
+
+    @Bean
+    public DataSource restDataSource() {
+        BasicDataSource dataSource = new BasicDataSource();
+        dataSource.setDriverClassName(env.getProperty("driver"));
+        dataSource.setUrl(env.getProperty("connection.url"));
+        dataSource.setUsername(env.getProperty("connection.username"));
+        dataSource.setPassword(env.getProperty("connection.password"));
+
+        return dataSource;
+    }
+
+    @Bean
+    @Autowired
+    public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
+        HibernateTransactionManager txManager = new HibernateTransactionManager();
+        txManager.setSessionFactory(sessionFactory);
+
+        return txManager;
     }
 
 
@@ -52,7 +72,7 @@ public class BeanConfig {
     @Bean(name = "getListAllWorkers")
     public WorkersDAO workersDAO() {
 
-        return new WorkersDAOImpl(getSessionFactory());
+        return new WorkersDAOImpl();
     }
 
 }

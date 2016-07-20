@@ -1,7 +1,8 @@
 package me.tkachenko.myfirst;
 
 import me.tkachenko.myfirst.config.BeanConfig;
-import me.tkachenko.myfirst.workersgenerator.Worker;
+import me.tkachenko.myfirst.model.Worker;
+import me.tkachenko.myfirst.workersDAO.WorkersDAO;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 

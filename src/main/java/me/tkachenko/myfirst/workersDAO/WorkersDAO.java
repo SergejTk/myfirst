@@ -1,6 +1,6 @@
-package me.tkachenko.myfirst;
+package me.tkachenko.myfirst.workersDAO;
 
-import me.tkachenko.myfirst.workersgenerator.Worker;
+import me.tkachenko.myfirst.model.Worker;
 
 import java.util.List;
 

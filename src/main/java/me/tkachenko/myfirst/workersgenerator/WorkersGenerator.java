@@ -4,6 +4,8 @@ package me.tkachenko.myfirst.workersgenerator;
 //import org.hibernate.SessionFactory;
 //import org.hibernate.Transaction;
 
+import me.tkachenko.myfirst.model.Worker;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
