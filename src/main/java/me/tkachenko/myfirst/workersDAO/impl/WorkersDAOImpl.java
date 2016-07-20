@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * Created by Дмитрий on 19.07.2016.
+ * Created by пїЅпїЅпїЅпїЅпїЅпїЅпїЅ on 19.07.2016.
  */
 @Repository
 public class WorkersDAOImpl implements WorkersDAO {
@@ -18,8 +18,6 @@ public class WorkersDAOImpl implements WorkersDAO {
 
     @Override
     public List<Worker> getAllWorkers() {
-
-
-        return sessionFactory.openSession().createCriteria(Worker.class).list();
+        return sessionFactory.getCurrentSession().createCriteria(Worker.class).list();
     }
 }

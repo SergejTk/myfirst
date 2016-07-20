@@ -1,12 +1,11 @@
 package me.tkachenko.myfirst.config;
 
 
-import me.tkachenko.myfirst.workersDAO.WorkersDAO;
-import me.tkachenko.myfirst.workersDAO.impl.WorkersDAOImpl;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -18,11 +17,12 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 /**
- * Created by Дмитрий on 19.07.2016.
+ * Created by пїЅпїЅпїЅпїЅпїЅпїЅпїЅ on 19.07.2016.
  */
 @Configuration
 @EnableTransactionManagement
 @PropertySource({"classpath:DBProperties.properties"})
+@ComponentScan({"me.tkachenko.myfirst"})
 public class BeanConfig {
 
     @Autowired
@@ -69,12 +69,4 @@ public class BeanConfig {
             }
         };
     }
-
-
-    @Bean(name = "getListAllWorkers")
-    public WorkersDAO workersDAO() {
-
-        return new WorkersDAOImpl();
-    }
-
 }
