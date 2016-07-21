@@ -1,14 +1,11 @@
 package me.tkachenko.myfirst.config;
 
 
-import me.tkachenko.myfirst.service.WorkersService;
-import me.tkachenko.myfirst.service.WorkersServiceImpl;
-import me.tkachenko.myfirst.workersdao.WorkersDAO;
-import me.tkachenko.myfirst.workersdao.WorkersDAOImpl;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -24,6 +21,7 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
+@ComponentScan({"me.tkachenko.myfirst"})
 @PropertySource({"classpath:DBProperties.properties"})
 public class BeanConfig {
 
@@ -72,16 +70,5 @@ public class BeanConfig {
         };
     }
 
-
-    @Bean(name = "getListAllWorkers")
-    public WorkersDAO workersDAO() {
-
-        return new WorkersDAOImpl();
-    }
-
-    @Bean
-    public WorkersService workersServise() {
-        return new WorkersServiceImpl();
-    }
 
 }
