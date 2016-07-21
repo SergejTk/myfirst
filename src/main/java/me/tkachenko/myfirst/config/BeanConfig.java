@@ -1,8 +1,10 @@
 package me.tkachenko.myfirst.config;
 
 
-import me.tkachenko.myfirst.workersDAO.WorkersDAO;
-import me.tkachenko.myfirst.workersDAO.impl.WorkersDAOImpl;
+import me.tkachenko.myfirst.service.WorkersService;
+import me.tkachenko.myfirst.service.WorkersServiceImpl;
+import me.tkachenko.myfirst.workersdao.WorkersDAO;
+import me.tkachenko.myfirst.workersdao.WorkersDAOImpl;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +77,11 @@ public class BeanConfig {
     public WorkersDAO workersDAO() {
 
         return new WorkersDAOImpl();
+    }
+
+    @Bean
+    public WorkersService workersServise() {
+        return new WorkersServiceImpl();
     }
 
 }
