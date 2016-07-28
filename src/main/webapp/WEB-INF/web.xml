@@ -4,4 +4,12 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+    <servlet>
+        <servlet-name>MySampleApplication MySampleApplicationService</servlet-name>
+        <servlet-class>me.tkachenko.myfirst.gwt.server.MySampleApplicationServiceImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MySampleApplication MySampleApplicationService</servlet-name>
+        <url-pattern>/MySampleApplication/MySampleApplicationService</url-pattern>
+    </servlet-mapping>
 </web-app>
