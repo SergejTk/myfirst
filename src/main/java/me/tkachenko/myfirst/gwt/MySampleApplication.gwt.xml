@@ -8,7 +8,9 @@
     <!-- Specify the app entry point class.                   -->
     <entry-point class='me.tkachenko.myfirst.gwt.client.MySampleApplication'/>
 
-
+    <!-- Specify the paths for translatable code -->
+    <source path='client'/>
+    <source path='shared'/>
     <!-- Specify the app servlets.                   -->
     <!--<servlet path='/MySampleApplicationService' class='me.tkachenko.myfirst.gwt.server.MySampleApplicationServiceImpl'/>-->
 

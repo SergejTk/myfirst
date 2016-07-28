@@ -6,7 +6,7 @@ import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import me.tkachenko.myfirst.model.Worker;
+import me.tkachenko.myfirst.gwt.shared.WorkerForTest;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,8 +18,8 @@ import java.util.Random;
  */
 public class MySampleApplication implements EntryPoint {
 
-    private DataGrid<Worker> tableListWorkers = new DataGrid<>();
-    private List<Worker> workers = new ArrayList<>();
+    private DataGrid<WorkerForTest> tableListWorkers = new DataGrid<>();
+    private List<WorkerForTest> workers = new ArrayList<>();
 
     /**
      * This is the entry point method.
@@ -29,9 +29,12 @@ public class MySampleApplication implements EntryPoint {
         createWorkerForTest();
 
         tableListWorkers.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
+
         tableListWorkers.setRowData(workers);
 
+        RootPanel.get().add(new Label("It is just  the  TEXT for TEST"));
         RootPanel.get().add(tableListWorkers);
+        RootPanel.get("workersList").add(new Label("It is just the text"));
 
     }
 
@@ -60,7 +63,7 @@ public class MySampleApplication implements EntryPoint {
         Random r = new Random();
 
         for (int i = 1; i <= 20; i++) {
-            Worker worker = new Worker();
+            WorkerForTest worker = new WorkerForTest();
             worker.setName(names[i % names.length]);
             worker.setFirstname(firstnames[i % firstnames.length]);
             worker.setLastname(lastnames[i % lastnames.length]);
