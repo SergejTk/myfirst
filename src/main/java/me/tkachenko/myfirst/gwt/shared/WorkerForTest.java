@@ -3,7 +3,7 @@ package me.tkachenko.myfirst.gwt.shared;
 import java.util.Date;
 
 /**
- * Created by Äìèòğèé on 28.07.2016.
+ * Created by Ğ”Ğ¼Ğ¸Ñ‚Ñ€Ğ¸Ğ¹ on 28.07.2016.
  */
 public class WorkerForTest {
     private String name;

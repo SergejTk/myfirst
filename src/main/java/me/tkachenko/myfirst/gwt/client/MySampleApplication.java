@@ -3,9 +3,11 @@ package me.tkachenko.myfirst.gwt.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
+import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.view.client.SingleSelectionModel;
 import me.tkachenko.myfirst.gwt.shared.WorkerForTest;
 
 import java.util.ArrayList;
@@ -29,8 +31,39 @@ public class MySampleApplication implements EntryPoint {
         createWorkerForTest();
 
         tableListWorkers.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
+        // Add column to show the name.
+        TextColumn<WorkerForTest> nameColumn = new TextColumn<WorkerForTest>() {
+            @Override
+            public String getValue(WorkerForTest object) {
+                return object.getName();
+            }
+        };
+        tableListWorkers.addColumn(nameColumn, "Name");
 
-        tableListWorkers.setRowData(workers);
+        // Add column to show the firstname.
+        TextColumn<WorkerForTest> firstnameColumn = new TextColumn<WorkerForTest>() {
+            @Override
+            public String getValue(WorkerForTest object) {
+                return object.getFirstname();
+            }
+        };
+        tableListWorkers.addColumn(firstnameColumn, "Firstname");
+
+        // Add column to show the lastname.
+        TextColumn<WorkerForTest> lastnameColumn = new TextColumn<WorkerForTest>() {
+            @Override
+            public String getValue(WorkerForTest object) {
+                return object.getLastname();
+            }
+        };
+        tableListWorkers.addColumn(lastnameColumn, "Lastname");
+
+        final SingleSelectionModel<WorkerForTest> selectionModel = new SingleSelectionModel<WorkerForTest>();
+        tableListWorkers.setSelectionModel(selectionModel);
+        tableListWorkers.setRowCount(workers.size(), true);
+
+        tableListWorkers.setRowData(0, workers);
+
 
         RootPanel.get().add(new Label("It is just  the  TEXT for TEST"));
         RootPanel.get().add(tableListWorkers);

@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * Created by Дмитрий on 20.07.2016.
+ * Created by Р”РјРёС‚СЂРёР№ on 20.07.2016.
  */
 
 @Service
