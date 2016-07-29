@@ -1,12 +1,12 @@
 package me.tkachenko.myfirst.gwt.client;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.*;
 import com.google.gwt.view.client.SingleSelectionModel;
 import me.tkachenko.myfirst.gwt.shared.WorkerForTest;
 
@@ -66,7 +66,12 @@ public class MySampleApplication implements EntryPoint {
 
 
         RootPanel.get().add(new Label("It is just  the  TEXT for TEST"));
-        RootPanel.get().add(tableListWorkers);
+        RootLayoutPanel rootPanel = RootLayoutPanel.get();
+        DockLayoutPanel layout = new DockLayoutPanel(Style.Unit.PX);
+        layout.addNorth(new HTMLPanel("h1", "Workers List"), 80);
+        layout.add(tableListWorkers);
+        rootPanel.add(layout);
+        //RootPanel.get().add(tableListWorkers);
         RootPanel.get("workersList").add(new Label("It is just the text"));
 
     }

@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 /**
- * Created by Дмитрий on 19.07.2016.
+ * Created by Sergej on 19.07.2016.
  */
 @Configuration
 @EnableTransactionManagement

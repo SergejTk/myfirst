@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import java.util.Date;
 
 /**
- * Created by Дмитрий on 11.07.2016.
+ * Created by Sergej on 11.07.2016.
  */
 
 

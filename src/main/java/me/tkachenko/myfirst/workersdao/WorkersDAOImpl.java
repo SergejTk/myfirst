@@ -10,7 +10,7 @@ import java.util.List;
 
 
 /**
- * Created by Дмитрий on 19.07.2016.
+ * Created by Sergej on 19.07.2016.
  */
 @Repository
 public class WorkersDAOImpl implements WorkersDAO {

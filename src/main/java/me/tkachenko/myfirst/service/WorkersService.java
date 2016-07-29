@@ -5,7 +5,7 @@ import me.tkachenko.myfirst.model.Worker;
 import java.util.List;
 
 /**
- * Created by Дмитрий on 21.07.2016.
+ * Created  by Sergej on 21.07.2016.
  */
 public interface WorkersService {
     List<Worker> getAllWorkers();

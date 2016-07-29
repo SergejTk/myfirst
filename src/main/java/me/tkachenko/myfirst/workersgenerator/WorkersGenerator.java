@@ -13,7 +13,7 @@ import java.util.GregorianCalendar;
 import java.util.Random;
 
 /**
- * Created by Дмитрий on 11.07.2016.
+ * Created by Sergej on 11.07.2016.
  */
 public class WorkersGenerator {
 
