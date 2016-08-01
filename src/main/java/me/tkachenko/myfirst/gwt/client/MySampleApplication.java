@@ -27,7 +27,7 @@ public class MySampleApplication implements EntryPoint {
      */
     public void onModuleLoad() {
 
-        MySampleApplicationService.App.getInstance().getListWorkers(new MyAsyncCallback(workers));
+        MySampleApplicationService.App.getInstance().getListWorkers(callback);
 
 
 
@@ -80,24 +80,17 @@ public class MySampleApplication implements EntryPoint {
 
     }
 
-    private static class MyAsyncCallback implements AsyncCallback<List<WorkerDTO>> {
-        private List<WorkerDTO> workerDTOList;
 
-        public MyAsyncCallback(List<WorkerDTO> workerDTO) {
-            workerDTOList = workerDTO;
+    AsyncCallback<List<WorkerDTO>> callback = new AsyncCallback<List<WorkerDTO>>() {
+        public void onFailure(Throwable caught) {
+            // TODO: Do something with errors.
         }
 
         public void onSuccess(List<WorkerDTO> result) {
+            workers = result;
             createDataGrid();
         }
-
-
-        public void onFailure(Throwable throwable) {
-
-        }
-
-    }
-
+    };
 
 
 }
