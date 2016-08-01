@@ -27,7 +27,7 @@ public class MySampleApplicationServiceImpl extends RemoteServiceServlet impleme
         list = test.getAllWorkers();
 
         for (Worker worker : list) {
-            //System.out.println(worker);
+            System.out.println(worker);
             workerDTOList.add(getWorkerDTO(worker));
 
         }

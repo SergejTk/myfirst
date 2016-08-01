@@ -18,17 +18,22 @@ import java.util.List;
  */
 public class MySampleApplication implements EntryPoint {
 
-    private DataGrid<WorkerDTO> tableListWorkers = new DataGrid<>();
-    private List<WorkerDTO> workers = new ArrayList<>();
-    final Label label = new Label();
+    private static DataGrid<WorkerDTO> tableListWorkers = new DataGrid<>();
+    private static List<WorkerDTO> workers = new ArrayList<>();
+
 
     /**
      * This is the entry point method.
      */
     public void onModuleLoad() {
 
-        workers = MySampleApplicationService.App.getInstance().getListWorkers(new MyAsyncCallback());
+        MySampleApplicationService.App.getInstance().getListWorkers(new MyAsyncCallback(workers));
 
+
+
+    }
+
+    private static void createDataGrid() {
         tableListWorkers.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
         // Add column to show the name.
         TextColumn<WorkerDTO> nameColumn = new TextColumn<WorkerDTO>() {
@@ -75,19 +80,20 @@ public class MySampleApplication implements EntryPoint {
 
     }
 
-    private static class MyAsyncCallback implements AsyncCallback<String> {
-        private Label label;
+    private static class MyAsyncCallback implements AsyncCallback<List<WorkerDTO>> {
+        private List<WorkerDTO> workerDTOList;
 
-        public MyAsyncCallback(Label label) {
-            this.label = label;
+        public MyAsyncCallback(List<WorkerDTO> workerDTO) {
+            workerDTOList = workerDTO;
         }
 
-        public void onSuccess(String result) {
-            label.getElement().setInnerHTML(result);
+        public void onSuccess(List<WorkerDTO> result) {
+            createDataGrid();
         }
+
 
         public void onFailure(Throwable throwable) {
-            label.setText("Failed to receive answer from server!");
+
         }
 
     }
