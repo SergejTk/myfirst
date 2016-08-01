@@ -3,11 +3,14 @@ package me.tkachenko.myfirst.gwt.client;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import me.tkachenko.myfirst.gwt.shared.WorkerDTO;
+
+import java.util.List;
 
 @RemoteServiceRelativePath("MySampleApplicationService")
 public interface MySampleApplicationService extends RemoteService {
     // Sample interface method of remote interface
-    String getMessage(String msg);
+    List<WorkerDTO> getListWorkers();
 
     /**
      * Utility/Convenience class.

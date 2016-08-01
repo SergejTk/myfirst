@@ -8,57 +8,56 @@ import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.view.client.SingleSelectionModel;
-import me.tkachenko.myfirst.gwt.shared.WorkerForTest;
+import me.tkachenko.myfirst.gwt.shared.WorkerDTO;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>
  */
 public class MySampleApplication implements EntryPoint {
 
-    private DataGrid<WorkerForTest> tableListWorkers = new DataGrid<>();
-    private List<WorkerForTest> workers = new ArrayList<>();
+    private DataGrid<WorkerDTO> tableListWorkers = new DataGrid<>();
+    private List<WorkerDTO> workers = new ArrayList<>();
+    final Label label = new Label();
 
     /**
      * This is the entry point method.
      */
     public void onModuleLoad() {
 
-        createWorkerForTest();
+        workers = MySampleApplicationService.App.getInstance().getListWorkers(new MyAsyncCallback());
 
         tableListWorkers.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
         // Add column to show the name.
-        TextColumn<WorkerForTest> nameColumn = new TextColumn<WorkerForTest>() {
+        TextColumn<WorkerDTO> nameColumn = new TextColumn<WorkerDTO>() {
             @Override
-            public String getValue(WorkerForTest object) {
-                return object.getName();
+            public String getValue(WorkerDTO object) {
+                return object.name;
             }
         };
         tableListWorkers.addColumn(nameColumn, "Name");
 
         // Add column to show the firstname.
-        TextColumn<WorkerForTest> firstnameColumn = new TextColumn<WorkerForTest>() {
+        TextColumn<WorkerDTO> firstnameColumn = new TextColumn<WorkerDTO>() {
             @Override
-            public String getValue(WorkerForTest object) {
-                return object.getFirstname();
+            public String getValue(WorkerDTO object) {
+                return object.firstname;
             }
         };
         tableListWorkers.addColumn(firstnameColumn, "Firstname");
 
         // Add column to show the lastname.
-        TextColumn<WorkerForTest> lastnameColumn = new TextColumn<WorkerForTest>() {
+        TextColumn<WorkerDTO> lastnameColumn = new TextColumn<WorkerDTO>() {
             @Override
-            public String getValue(WorkerForTest object) {
-                return object.getLastname();
+            public String getValue(WorkerDTO object) {
+                return object.lastname;
             }
         };
         tableListWorkers.addColumn(lastnameColumn, "Lastname");
 
-        final SingleSelectionModel<WorkerForTest> selectionModel = new SingleSelectionModel<WorkerForTest>();
+        final SingleSelectionModel<WorkerDTO> selectionModel = new SingleSelectionModel<WorkerDTO>();
         tableListWorkers.setSelectionModel(selectionModel);
         tableListWorkers.setRowCount(workers.size(), true);
 
@@ -93,36 +92,6 @@ public class MySampleApplication implements EntryPoint {
 
     }
 
-    private void createWorkerForTest() {
-        String[] names = new String[]{"Vanja", "Petja", "Pafnutiy", "Modest", "Osja", "Lev"};
-        String[] firstnames = new String[]{"Pupkin", "Aaa", "Bbb", "Ccc", "Ddd", "Fff", "Ggg", "Hhh"};
-        String[] lastnames = new String[]{"Qwer", "Asdf", "Zxcv", "Bnmm", "Jkld"};
 
-        Random r = new Random();
 
-        for (int i = 1; i <= 20; i++) {
-            WorkerForTest worker = new WorkerForTest();
-            worker.setName(names[i % names.length]);
-            worker.setFirstname(firstnames[i % firstnames.length]);
-            worker.setLastname(lastnames[i % lastnames.length]);
-            worker.setKurs(r.nextInt(4) + 1);
-            worker.setNumberinv(Math.abs(r.nextInt()));
-            worker.setBall(r.nextInt(9) + 1);
-            worker.setAbc(generateDate());
-            worker.setDef(i);
-
-            workers.add(worker);
-        }
-    }
-
-    private Date generateDate() {
-        Random random = new Random();
-        int year = 85 + random.nextInt(15);
-        int month = random.nextInt(11);
-        int day = random.nextInt(27) + 1;
-
-        Date greg = new Date(year, month, day);
-
-        return greg;
-    }
 }
