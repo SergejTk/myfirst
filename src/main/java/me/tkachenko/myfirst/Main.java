@@ -1,12 +1,6 @@
 package me.tkachenko.myfirst;
 
-import me.tkachenko.myfirst.config.BeanConfig;
-import me.tkachenko.myfirst.model.Worker;
-import me.tkachenko.myfirst.service.WorkersService;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import java.util.List;
+import me.tkachenko.myfirst.workersgenerator.WorkersGenerator;
 
 /**
  * Created by Sergej on 19.07.2016.
@@ -14,7 +8,7 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        List<Worker> list;
+       /* List<Worker> list;
         ApplicationContext context =
                 new AnnotationConfigApplicationContext(BeanConfig.class);
 
@@ -24,5 +18,7 @@ public class Main {
 
         for (Worker worker : list)
             System.out.println(worker);
+            */
+        WorkersGenerator.createWorker();
     }
 }

@@ -31,7 +31,7 @@ public class WorkersGenerator {
 
         try (PrintWriter pw = new PrintWriter(path)) {
 
-            for (int i = 1; i <= 20; i++) {
+            for (int i = 1; i <= 150; i++) {
                 Worker worker = new Worker();
                 worker.setName(names[i % names.length]);
                 worker.setFirstname(firstnames[i % firstnames.length]);
