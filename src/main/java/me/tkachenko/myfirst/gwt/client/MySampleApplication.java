@@ -34,8 +34,8 @@ public class MySampleApplication implements EntryPoint {
     public void onModuleLoad() {
 
 
-        createDataGrid();
-        //MySampleApplicationService.App.getInstance().getListWorkers(callback);
+        //createDataGrid();
+        MySampleApplicationService.App.getInstance().getListWorkers(callback);
 
 
     }

@@ -28,8 +28,7 @@ public class WorkersDAOImpl implements WorkersDAO {
     @Override
     @Transactional(readOnly = true)
     public List<Worker> getPartWorkers(int start, int length) {
-        sessionFactory.getCurrentSession().createCriteria(Worker.class).setFirstResult(start);
-        sessionFactory.getCurrentSession().createCriteria(Worker.class).setFetchSize(length);
-        return sessionFactory.getCurrentSession().createCriteria(Worker.class).list();
+
+        return sessionFactory.getCurrentSession().createCriteria(Worker.class).setFirstResult(start).setMaxResults(length).list();
     }
 }
