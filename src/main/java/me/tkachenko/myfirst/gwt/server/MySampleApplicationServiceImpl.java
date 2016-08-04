@@ -34,6 +34,27 @@ public class MySampleApplicationServiceImpl extends RemoteServiceServlet impleme
         return workerDTOList;
     }
 
+    public List<WorkerDTO> getPartWorkers(int start, int length) {
+
+        List<Worker> list;
+        List<WorkerDTO> workerDTOList = new ArrayList<>();
+
+
+        ApplicationContext context =
+                new AnnotationConfigApplicationContext(BeanConfig.class);
+
+
+        WorkersService test = context.getBean(WorkersService.class);
+        list = test.getPartWorkers(start, length);
+
+        for (Worker worker : list) {
+            // System.out.println(worker);
+            workerDTOList.add(getWorkerDTO(worker));
+
+        }
+        return workerDTOList;
+    }
+
     WorkerDTO getWorkerDTO(Worker worker) {
         WorkerDTO workerDTO = new WorkerDTO();
         workerDTO.name = worker.getName();

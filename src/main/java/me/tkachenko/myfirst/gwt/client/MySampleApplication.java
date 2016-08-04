@@ -1,12 +1,10 @@
 package me.tkachenko.myfirst.gwt.client;
 
+import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.cellview.client.DataGrid;
-import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy;
-import com.google.gwt.user.cellview.client.SimplePager;
-import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.cellview.client.*;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -36,20 +34,21 @@ public class MySampleApplication implements EntryPoint {
     public void onModuleLoad() {
 
 
-        MySampleApplicationService.App.getInstance().getListWorkers(callback);
+        createDataGrid();
+        //MySampleApplicationService.App.getInstance().getListWorkers(callback);
 
 
     }
 
-    private static class DataProvider extends AsyncDataProvider<DataGrid<WorkerDTO>> {
+    private static class DataProvider extends AsyncDataProvider<WorkerDTO> {
         @Override
-        protected void onRangeChanged(HasData<DataGrid<WorkerDTO>> display) {
+        protected void onRangeChanged(HasData<WorkerDTO> display) {
             Range range = display.getVisibleRange();
             final int start = range.getStart();
             int length = range.getLength();
 
-            AsyncCallback<List<WorkerDTO>> callback2 = new AsyncCallback<List<WorkerDTO>>() {
-                List<DataGrid<WorkerDTO>> result2 = new ArrayList<>();
+            MySampleApplicationService.App.getInstance().getPartWorkers(start, length, new AsyncCallback<List<WorkerDTO>>() {
+
 
                 @Override
                 public void onFailure(Throwable caught) {
@@ -58,12 +57,11 @@ public class MySampleApplication implements EntryPoint {
 
                 @Override
                 public void onSuccess(List<WorkerDTO> result) {
-                    tableListWorkers.setRowData(result);
-                    result2.add(tableListWorkers);
-                    updateRowData(start, result2);
+                    workers = result;
+                    updateRowData(start, workers);
                 }
-            };
-            MySampleApplicationService.App.getInstance().getPartWorkers(start, length, callback2);
+            });
+            //MySampleApplicationService.App.getInstance().getPartWorkers(start, length, callback2);
 
         }
     }
@@ -72,6 +70,14 @@ public class MySampleApplication implements EntryPoint {
 
 
         tableListWorkers.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
+        Column<WorkerDTO, Number> defColumn = new Column<WorkerDTO, Number>(new NumberCell()) {
+            @Override
+            public Number getValue(WorkerDTO object) {
+                return object.def;
+            }
+        };
+        tableListWorkers.addColumn(defColumn, "ID");
+
         // Add column to show the name.
         TextColumn<WorkerDTO> nameColumn = new TextColumn<WorkerDTO>() {
             @Override
@@ -105,7 +111,6 @@ public class MySampleApplication implements EntryPoint {
 
         tableListWorkers.setRowData(0, workers);
 
-
         DataProvider dataProvider = new DataProvider();
         dataProvider.addDataDisplay(tableListWorkers);
 
@@ -122,10 +127,9 @@ public class MySampleApplication implements EntryPoint {
         DockLayoutPanel layout = new DockLayoutPanel(Style.Unit.PX);
         layout.addNorth(new HTMLPanel("h1", "Workers List"), 80);
         layout.add(tableListWorkers);
-        VerticalPanel verticalPanel = new VerticalPanel();
 
+        VerticalPanel verticalPanel = new VerticalPanel();
         verticalPanel.add(pager);
-        //layout.add(pager);
         rootPanel.add(layout);
         rootPanel.add(verticalPanel);
         //RootPanel.get().add(tableListWorkers);
