@@ -9,4 +9,6 @@ import java.util.List;
  */
 public interface WorkersService {
     List<Worker> getAllWorkers();
+
+    List<Worker> getPartWorkers(int start, int length);
 }

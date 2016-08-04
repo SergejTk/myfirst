@@ -12,6 +12,9 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.AsyncDataProvider;
+import com.google.gwt.view.client.HasData;
+import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.SingleSelectionModel;
 import me.tkachenko.myfirst.gwt.shared.WorkerDTO;
 
@@ -36,16 +39,36 @@ public class MySampleApplication implements EntryPoint {
         MySampleApplicationService.App.getInstance().getListWorkers(callback);
 
 
+    }
 
+    private static class DataProvider extends AsyncDataProvider<DataGrid<WorkerDTO>> {
+        @Override
+        protected void onRangeChanged(HasData<DataGrid<WorkerDTO>> display) {
+            Range range = display.getVisibleRange();
+            final int start = range.getStart();
+            int length = range.getLength();
+
+            AsyncCallback<List<WorkerDTO>> callback2 = new AsyncCallback<List<WorkerDTO>>() {
+                List<DataGrid<WorkerDTO>> result2 = new ArrayList<>();
+
+                @Override
+                public void onFailure(Throwable caught) {
+                    // TODO: Do something with errors.
+                }
+
+                @Override
+                public void onSuccess(List<WorkerDTO> result) {
+                    tableListWorkers.setRowData(result);
+                    result2.add(tableListWorkers);
+                    updateRowData(start, result2);
+                }
+            };
+            MySampleApplicationService.App.getInstance().getPartWorkers(start, length, callback2);
+
+        }
     }
 
     private static void createDataGrid() {
-        SimplePager pager;
-        // Create a Pager to control the table.
-        SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
-        pager = new SimplePager(SimplePager.TextLocation.CENTER, pagerResources, true, 0, true);
-        pager.setDisplay(tableListWorkers);
-        pager.setPageSize(20);
 
 
         tableListWorkers.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
@@ -83,6 +106,17 @@ public class MySampleApplication implements EntryPoint {
         tableListWorkers.setRowData(0, workers);
 
 
+        DataProvider dataProvider = new DataProvider();
+        dataProvider.addDataDisplay(tableListWorkers);
+
+        SimplePager pager;
+        // Create a Pager to control the table.
+        SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+        pager = new SimplePager(SimplePager.TextLocation.CENTER, pagerResources, true, 0, true);
+        pager.setDisplay(tableListWorkers);
+        pager.setPageSize(20);
+
+
         //RootPanel.get().add(new Label("It is just  the  TEXT for TEST"));
         RootLayoutPanel rootPanel = RootLayoutPanel.get();
         DockLayoutPanel layout = new DockLayoutPanel(Style.Unit.PX);
@@ -98,7 +132,6 @@ public class MySampleApplication implements EntryPoint {
         //RootPanel.get("workersList").add(new Label("It is just the text"));
 
     }
-
 
     AsyncCallback<List<WorkerDTO>> callback = new AsyncCallback<List<WorkerDTO>>() {
         public void onFailure(Throwable caught) {
