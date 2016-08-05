@@ -11,4 +11,6 @@ public interface WorkersService {
     List<Worker> getAllWorkers();
 
     List<Worker> getPartWorkers(int start, int length);
+
+    List getTotalRow();
 }

@@ -53,7 +53,7 @@ public class MySampleApplicationServiceImpl extends RemoteServiceServlet impleme
     }
 
     public int getTotalRow() {
-        return getListWorkers().size();
+        return (Integer) test.getTotalRow().get(0);
     }
 
     WorkerDTO getWorkerDTO(Worker worker) {

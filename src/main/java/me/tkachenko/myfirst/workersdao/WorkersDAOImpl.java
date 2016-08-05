@@ -2,6 +2,7 @@ package me.tkachenko.myfirst.workersdao;
 
 import me.tkachenko.myfirst.model.Worker;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,7 @@ import java.util.List;
  */
 @Repository
 public class WorkersDAOImpl implements WorkersDAO {
+
     @Autowired
     SessionFactory sessionFactory;
 
@@ -28,8 +30,20 @@ public class WorkersDAOImpl implements WorkersDAO {
     @Override
     @Transactional(readOnly = true)
     public List<Worker> getPartWorkers(int start, int length) {
+        //List rowCount = sessionFactory.getCurrentSession().createCriteria(Worker.class).setProjection(Projections.rowCount()).list();
+
+
 
         return sessionFactory.getCurrentSession().createCriteria(Worker.class).setFirstResult(start).setMaxResults(length).list();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List getTotalRow() {
+
+        return sessionFactory.getCurrentSession().createCriteria(Worker.class).setProjection(Projections.rowCount()).list();
+
+
     }
 
 

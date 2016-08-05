@@ -23,7 +23,7 @@ import java.util.List;
 public class MySampleApplication implements EntryPoint {
 
     private static DataGrid<WorkerDTO> tableListWorkers = new DataGrid<>();
-    private static int countTotalRow;
+
 
 
     /**
@@ -45,6 +45,18 @@ public class MySampleApplication implements EntryPoint {
             final int start = range.getStart();
             int length = range.getLength();
 
+            MySampleApplicationService.App.getInstance().getTotalRow(new AsyncCallback<Integer>() {
+                @Override
+                public void onFailure(Throwable caught) {
+                    // TODO: Do something with errors.
+                }
+
+                @Override
+                public void onSuccess(Integer result) {
+                    tableListWorkers.setRowCount(result, true);
+                }
+            });
+
 
             MySampleApplicationService.App.getInstance().getPartWorkers(start, length, new AsyncCallback<List<WorkerDTO>>() {
 
@@ -57,7 +69,6 @@ public class MySampleApplication implements EntryPoint {
                 @Override
                 public void onSuccess(List<WorkerDTO> result) {
 
-                    tableListWorkers.setRowCount(countTotalRow, true);
 
                     updateRowData(start, result);
 
@@ -68,17 +79,7 @@ public class MySampleApplication implements EntryPoint {
     }
 
     private static void createDataGrid() {
-        MySampleApplicationService.App.getInstance().getTotalRow(new AsyncCallback<Integer>() {
-            @Override
-            public void onFailure(Throwable caught) {
-                // TODO: Do something with errors.
-            }
 
-            @Override
-            public void onSuccess(Integer result) {
-                countTotalRow = result;
-            }
-        });
 
 
         tableListWorkers.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
