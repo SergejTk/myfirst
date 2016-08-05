@@ -5,6 +5,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.cellview.client.*;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -49,6 +50,7 @@ public class MySampleApplication implements EntryPoint {
                 @Override
                 public void onFailure(Throwable caught) {
                     // TODO: Do something with errors.
+                    Window.alert("ERROR from SERVER");
                 }
 
                 @Override
@@ -64,6 +66,7 @@ public class MySampleApplication implements EntryPoint {
                 @Override
                 public void onFailure(Throwable caught) {
                     // TODO: Do something with errors.
+                    Window.alert("ERROR from SERVER");
                 }
 
                 @Override
