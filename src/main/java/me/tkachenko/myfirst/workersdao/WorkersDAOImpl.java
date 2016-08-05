@@ -31,4 +31,6 @@ public class WorkersDAOImpl implements WorkersDAO {
 
         return sessionFactory.getCurrentSession().createCriteria(Worker.class).setFirstResult(start).setMaxResults(length).list();
     }
+
+
 }

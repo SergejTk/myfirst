@@ -14,6 +14,8 @@ public interface MySampleApplicationService extends RemoteService {
 
     List<WorkerDTO> getPartWorkers(int start, int length);
 
+    int getTotalRow();
+
     /**
      * Utility/Convenience class.
      * Use MySampleApplicationService.App.getInstance() to access static instance of MySampleApplicationServiceAsync

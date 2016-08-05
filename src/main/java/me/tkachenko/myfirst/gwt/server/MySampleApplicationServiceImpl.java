@@ -13,17 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MySampleApplicationServiceImpl extends RemoteServiceServlet implements MySampleApplicationService {
+
+
+    ApplicationContext context =
+            new AnnotationConfigApplicationContext(BeanConfig.class);
+
+    WorkersService test = context.getBean(WorkersService.class);
+
     // Implementation of sample interface method
     public List<WorkerDTO> getListWorkers() {
         List<Worker> list;
         List<WorkerDTO> workerDTOList = new ArrayList<>();
 
 
-        ApplicationContext context =
-                new AnnotationConfigApplicationContext(BeanConfig.class);
-
-
-        WorkersService test = context.getBean(WorkersService.class);
         list = test.getAllWorkers();
 
         for (Worker worker : list) {
@@ -40,11 +42,6 @@ public class MySampleApplicationServiceImpl extends RemoteServiceServlet impleme
         List<WorkerDTO> workerDTOList = new ArrayList<>();
 
 
-        ApplicationContext context =
-                new AnnotationConfigApplicationContext(BeanConfig.class);
-
-
-        WorkersService test = context.getBean(WorkersService.class);
         list = test.getPartWorkers(start, length);
 
         for (Worker worker : list) {
@@ -53,6 +50,10 @@ public class MySampleApplicationServiceImpl extends RemoteServiceServlet impleme
 
         }
         return workerDTOList;
+    }
+
+    public int getTotalRow() {
+        return getListWorkers().size();
     }
 
     WorkerDTO getWorkerDTO(Worker worker) {

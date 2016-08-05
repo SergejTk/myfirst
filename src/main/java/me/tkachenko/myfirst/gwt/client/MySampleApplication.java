@@ -9,14 +9,12 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.SingleSelectionModel;
 import me.tkachenko.myfirst.gwt.shared.WorkerDTO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +23,7 @@ import java.util.List;
 public class MySampleApplication implements EntryPoint {
 
     private static DataGrid<WorkerDTO> tableListWorkers = new DataGrid<>();
-    private static List<WorkerDTO> workers = new ArrayList<>();
+    private static int countTotalRow;
 
 
     /**
@@ -33,9 +31,9 @@ public class MySampleApplication implements EntryPoint {
      */
     public void onModuleLoad() {
 
+        createDataGrid();
 
-        //createDataGrid();
-        MySampleApplicationService.App.getInstance().getListWorkers(callback);
+        //MySampleApplicationService.App.getInstance().getListWorkers(callback);
 
 
     }
@@ -47,6 +45,7 @@ public class MySampleApplication implements EntryPoint {
             final int start = range.getStart();
             int length = range.getLength();
 
+
             MySampleApplicationService.App.getInstance().getPartWorkers(start, length, new AsyncCallback<List<WorkerDTO>>() {
 
 
@@ -57,16 +56,29 @@ public class MySampleApplication implements EntryPoint {
 
                 @Override
                 public void onSuccess(List<WorkerDTO> result) {
-                    workers = result;
-                    updateRowData(start, workers);
+
+                    tableListWorkers.setRowCount(countTotalRow, true);
+
+                    updateRowData(start, result);
+
                 }
             });
-            //MySampleApplicationService.App.getInstance().getPartWorkers(start, length, callback2);
 
         }
     }
 
     private static void createDataGrid() {
+        MySampleApplicationService.App.getInstance().getTotalRow(new AsyncCallback<Integer>() {
+            @Override
+            public void onFailure(Throwable caught) {
+                // TODO: Do something with errors.
+            }
+
+            @Override
+            public void onSuccess(Integer result) {
+                countTotalRow = result;
+            }
+        });
 
 
         tableListWorkers.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
@@ -107,9 +119,7 @@ public class MySampleApplication implements EntryPoint {
 
         final SingleSelectionModel<WorkerDTO> selectionModel = new SingleSelectionModel<WorkerDTO>();
         tableListWorkers.setSelectionModel(selectionModel);
-        tableListWorkers.setRowCount(workers.size(), true);
 
-        tableListWorkers.setRowData(0, workers);
 
         DataProvider dataProvider = new DataProvider();
         dataProvider.addDataDisplay(tableListWorkers);
@@ -126,12 +136,16 @@ public class MySampleApplication implements EntryPoint {
         RootLayoutPanel rootPanel = RootLayoutPanel.get();
         DockLayoutPanel layout = new DockLayoutPanel(Style.Unit.PX);
         layout.addNorth(new HTMLPanel("h1", "Workers List"), 80);
+
+
+        layout.addSouth(pager, 220);
+
         layout.add(tableListWorkers);
 
-        VerticalPanel verticalPanel = new VerticalPanel();
-        verticalPanel.add(pager);
+        //VerticalPanel verticalPanel = new VerticalPanel();
+        // verticalPanel.add(pager);
         rootPanel.add(layout);
-        rootPanel.add(verticalPanel);
+        //rootPanel.add(verticalPanel);
         //RootPanel.get().add(tableListWorkers);
         //RootPanel.get("workersList").add(new Label("It is just the text"));
 
@@ -143,7 +157,8 @@ public class MySampleApplication implements EntryPoint {
         }
 
         public void onSuccess(List<WorkerDTO> result) {
-            workers = result;
+            tableListWorkers.setRowCount(result.size(), true);
+            //workers = result;
             createDataGrid();
         }
     };
