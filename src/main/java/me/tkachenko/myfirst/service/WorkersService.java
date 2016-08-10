@@ -12,5 +12,5 @@ public interface WorkersService {
 
     List<Worker> getPartWorkers(int start, int length);
 
-    List getTotalRow();
+    Number getTotalRow();
 }

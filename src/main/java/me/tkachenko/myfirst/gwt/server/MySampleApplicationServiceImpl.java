@@ -49,11 +49,19 @@ public class MySampleApplicationServiceImpl extends RemoteServiceServlet impleme
             workerDTOList.add(getWorkerDTO(worker));
 
         }
+
+        /*workerDTOList.sort(new Comparator<WorkerDTO>() {
+            @Override
+            public int compare(WorkerDTO o1, WorkerDTO o2) {
+                return o1.firstname.compareTo(o2.firstname);
+            }
+        });
+            */
         return workerDTOList;
     }
 
-    public int getTotalRow() {
-        return (Integer) test.getTotalRow().get(0);
+    public Number getTotalRow() {
+        return test.getTotalRow();
     }
 
     WorkerDTO getWorkerDTO(Worker worker) {

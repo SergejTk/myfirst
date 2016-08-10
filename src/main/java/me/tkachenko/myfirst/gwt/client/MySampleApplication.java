@@ -1,5 +1,6 @@
 package me.tkachenko.myfirst.gwt.client;
 
+import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -16,6 +17,8 @@ import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.SingleSelectionModel;
 import me.tkachenko.myfirst.gwt.shared.WorkerDTO;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,7 +27,7 @@ import java.util.List;
 public class MySampleApplication implements EntryPoint {
 
     private static DataGrid<WorkerDTO> tableListWorkers = new DataGrid<>();
-
+    private static List<WorkerDTO> workerDTOList = new ArrayList<>();
 
 
     /**
@@ -46,16 +49,16 @@ public class MySampleApplication implements EntryPoint {
             final int start = range.getStart();
             int length = range.getLength();
 
-            MySampleApplicationService.App.getInstance().getTotalRow(new AsyncCallback<Integer>() {
+            MySampleApplicationService.App.getInstance().getTotalRow(new AsyncCallback<Number>() {
                 @Override
                 public void onFailure(Throwable caught) {
                     // TODO: Do something with errors.
-                    Window.alert("ERROR from SERVER");
+                    Window.alert("ERROR from SERVER !");
                 }
 
                 @Override
-                public void onSuccess(Integer result) {
-                    tableListWorkers.setRowCount(result, true);
+                public void onSuccess(Number result) {
+                    tableListWorkers.setRowCount((int) result, true);
                 }
             });
 
@@ -72,7 +75,7 @@ public class MySampleApplication implements EntryPoint {
                 @Override
                 public void onSuccess(List<WorkerDTO> result) {
 
-
+                    workerDTOList = result;
                     updateRowData(start, result);
 
                 }
@@ -112,6 +115,8 @@ public class MySampleApplication implements EntryPoint {
         };
         tableListWorkers.addColumn(firstnameColumn, "Firstname");
 
+        firstnameColumn.setSortable(true);
+
         // Add column to show the lastname.
         TextColumn<WorkerDTO> lastnameColumn = new TextColumn<WorkerDTO>() {
             @Override
@@ -121,8 +126,37 @@ public class MySampleApplication implements EntryPoint {
         };
         tableListWorkers.addColumn(lastnameColumn, "Lastname");
 
+
+        DateCell dateCell = new DateCell();
+        Column<WorkerDTO, Date> dateColumn = new Column<WorkerDTO, Date>(dateCell) {
+            @Override
+            public Date getValue(WorkerDTO object) {
+                return object.abc;
+            }
+        };
+        tableListWorkers.addColumn(dateColumn, "Birthday");
+
+        Column<WorkerDTO, Number> numberinvColumn = new Column<WorkerDTO, Number>(new NumberCell()) {
+            @Override
+            public Number getValue(WorkerDTO object) {
+                return object.numberinv;
+            }
+        };
+        tableListWorkers.addColumn(numberinvColumn, "№ Sertificate");
+
+
         final SingleSelectionModel<WorkerDTO> selectionModel = new SingleSelectionModel<WorkerDTO>();
         tableListWorkers.setSelectionModel(selectionModel);
+
+        // --------------------------------------------------------
+
+
+        firstnameColumn.setSortable(true);
+        ColumnSortEvent.ListHandler<WorkerDTO> columnSortHandler = new
+                ColumnSortEvent.ListHandler<WorkerDTO>(workerDTOList);
+        tableListWorkers.addColumnSortHandler(columnSortHandler);
+
+        //------------------------------------------------------------
 
 
         DataProvider dataProvider = new DataProvider();

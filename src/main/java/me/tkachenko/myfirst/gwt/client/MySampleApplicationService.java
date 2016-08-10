@@ -14,7 +14,7 @@ public interface MySampleApplicationService extends RemoteService {
 
     List<WorkerDTO> getPartWorkers(int start, int length);
 
-    int getTotalRow();
+    Number getTotalRow();
 
     /**
      * Utility/Convenience class.

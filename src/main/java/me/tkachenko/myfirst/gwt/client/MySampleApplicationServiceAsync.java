@@ -10,5 +10,5 @@ public interface MySampleApplicationServiceAsync {
 
     void getPartWorkers(int start, int length, AsyncCallback<List<WorkerDTO>> async);
 
-    void getTotalRow(AsyncCallback<Integer> async);
+    void getTotalRow(AsyncCallback<Number> async);
 }

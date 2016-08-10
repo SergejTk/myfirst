@@ -16,7 +16,7 @@ public class WorkersServiceImpl implements WorkersService {
     @Resource
     private WorkersDAO workersDAO;
     private List<Worker> workerList;
-    private List countRow;
+    private Number countRow;
 
     //@Transactional(readOnly = true)
     public List<Worker> getAllWorkers() {
@@ -32,7 +32,7 @@ public class WorkersServiceImpl implements WorkersService {
         return workerList;
     }
 
-    public List getTotalRow() {
+    public Number getTotalRow() {
 
         countRow = workersDAO.getTotalRow();
         return countRow;
