@@ -30,7 +30,7 @@ public class WorkersDAOImpl implements WorkersDAO {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Worker> getPartWorkers(int start, int length) {
+    public List<Worker> getPartWorkers(int start, int length, String col) {
         //List rowCount = sessionFactory.getCurrentSession().createCriteria(Worker.class).setProjection(Projections.rowCount()).list();
 
 

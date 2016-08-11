@@ -26,9 +26,9 @@ public class WorkersServiceImpl implements WorkersService {
     }
 
 
-    public List<Worker> getPartWorkers(int start, int length) {
+    public List<Worker> getPartWorkers(int start, int length, String col) {
 
-        workerList = workersDAO.getPartWorkers(start, length);
+        workerList = workersDAO.getPartWorkers(start, length, col);
         return workerList;
     }
 

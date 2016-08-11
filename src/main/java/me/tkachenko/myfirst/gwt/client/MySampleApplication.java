@@ -35,19 +35,28 @@ public class MySampleApplication implements EntryPoint {
      */
     public void onModuleLoad() {
 
+
         createDataGrid();
 
         //MySampleApplicationService.App.getInstance().getListWorkers(callback);
 
-
     }
 
-    private static class DataProvider extends AsyncDataProvider<WorkerDTO> {
+    private class DataProvider extends AsyncDataProvider<WorkerDTO> {
+
         @Override
         protected void onRangeChanged(HasData<WorkerDTO> display) {
             Range range = display.getVisibleRange();
             final int start = range.getStart();
             int length = range.getLength();
+
+            final ColumnSortList sortList = tableListWorkers.getColumnSortList();
+            ColumnSortList.ColumnSortInfo coldd;
+            // if(sortList.get(0) != null) coldd  = sortList.get(0);
+
+
+            // Column's  name for sort
+            String col = null;
 
             MySampleApplicationService.App.getInstance().getTotalRow(new AsyncCallback<Number>() {
                 @Override
@@ -63,7 +72,7 @@ public class MySampleApplication implements EntryPoint {
             });
 
 
-            MySampleApplicationService.App.getInstance().getPartWorkers(start, length, new AsyncCallback<List<WorkerDTO>>() {
+            MySampleApplicationService.App.getInstance().getPartWorkers(start, length, col, new AsyncCallback<List<WorkerDTO>>() {
 
 
                 @Override
@@ -81,12 +90,12 @@ public class MySampleApplication implements EntryPoint {
                 }
             });
 
+
         }
+
     }
 
-    private static void createDataGrid() {
-
-
+    private void createDataGrid() {
 
         tableListWorkers.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
         Column<WorkerDTO, Number> defColumn = new Column<WorkerDTO, Number>(new NumberCell()) {
@@ -105,6 +114,7 @@ public class MySampleApplication implements EntryPoint {
             }
         };
         tableListWorkers.addColumn(nameColumn, "Name");
+        nameColumn.setSortable(true);
 
         // Add column to show the firstname.
         TextColumn<WorkerDTO> firstnameColumn = new TextColumn<WorkerDTO>() {
@@ -114,7 +124,6 @@ public class MySampleApplication implements EntryPoint {
             }
         };
         tableListWorkers.addColumn(firstnameColumn, "Firstname");
-
         firstnameColumn.setSortable(true);
 
         // Add column to show the lastname.
@@ -125,7 +134,7 @@ public class MySampleApplication implements EntryPoint {
             }
         };
         tableListWorkers.addColumn(lastnameColumn, "Lastname");
-
+        lastnameColumn.setSortable(true);
 
         DateCell dateCell = new DateCell();
         Column<WorkerDTO, Date> dateColumn = new Column<WorkerDTO, Date>(dateCell) {
@@ -135,6 +144,7 @@ public class MySampleApplication implements EntryPoint {
             }
         };
         tableListWorkers.addColumn(dateColumn, "Birthday");
+        dateColumn.setSortable(true);
 
         Column<WorkerDTO, Number> numberinvColumn = new Column<WorkerDTO, Number>(new NumberCell()) {
             @Override
@@ -148,26 +158,28 @@ public class MySampleApplication implements EntryPoint {
         final SingleSelectionModel<WorkerDTO> selectionModel = new SingleSelectionModel<WorkerDTO>();
         tableListWorkers.setSelectionModel(selectionModel);
 
-        // --------------------------------------------------------
-
-
-        firstnameColumn.setSortable(true);
-        ColumnSortEvent.ListHandler<WorkerDTO> columnSortHandler = new
-                ColumnSortEvent.ListHandler<WorkerDTO>(workerDTOList);
-        tableListWorkers.addColumnSortHandler(columnSortHandler);
-
-        //------------------------------------------------------------
-
-
-        DataProvider dataProvider = new DataProvider();
-        dataProvider.addDataDisplay(tableListWorkers);
-
         SimplePager pager;
         // Create a Pager to control the table.
         SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
         pager = new SimplePager(SimplePager.TextLocation.CENTER, pagerResources, true, 0, true);
         pager.setDisplay(tableListWorkers);
         pager.setPageSize(20);
+
+        DataProvider dataProvider = new DataProvider();
+        dataProvider.addDataDisplay(tableListWorkers);
+
+        // --------------------------------------------------------
+
+
+        ColumnSortEvent.AsyncHandler columnSortHandler = new
+                ColumnSortEvent.AsyncHandler(tableListWorkers);
+        tableListWorkers.addColumnSortHandler(columnSortHandler);
+
+
+        //------------------------------------------------------------
+
+
+
 
 
         //RootPanel.get().add(new Label("It is just  the  TEXT for TEST"));
@@ -189,6 +201,7 @@ public class MySampleApplication implements EntryPoint {
 
     }
 
+
     AsyncCallback<List<WorkerDTO>> callback = new AsyncCallback<List<WorkerDTO>>() {
         public void onFailure(Throwable caught) {
             // TODO: Do something with errors.
@@ -197,7 +210,7 @@ public class MySampleApplication implements EntryPoint {
         public void onSuccess(List<WorkerDTO> result) {
             tableListWorkers.setRowCount(result.size(), true);
             //workers = result;
-            createDataGrid();
+            //createDataGrid();
         }
     };
 

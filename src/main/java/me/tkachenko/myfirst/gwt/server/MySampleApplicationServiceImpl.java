@@ -36,13 +36,14 @@ public class MySampleApplicationServiceImpl extends RemoteServiceServlet impleme
         return workerDTOList;
     }
 
-    public List<WorkerDTO> getPartWorkers(int start, int length) {
+    public List<WorkerDTO> getPartWorkers(int start, int length, String col) {
+        System.out.println("COLUMN =     " + col);
 
         List<Worker> list;
         List<WorkerDTO> workerDTOList = new ArrayList<>();
 
 
-        list = test.getPartWorkers(start, length);
+        list = test.getPartWorkers(start, length, col);
 
         for (Worker worker : list) {
             // System.out.println(worker);
