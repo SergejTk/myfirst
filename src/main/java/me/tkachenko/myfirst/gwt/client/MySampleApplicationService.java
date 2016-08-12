@@ -12,7 +12,7 @@ public interface MySampleApplicationService extends RemoteService {
     // Sample interface method of remote interface
     List<WorkerDTO> getListWorkers();
 
-    List<WorkerDTO> getPartWorkers(int start, int length, String col);
+    List<WorkerDTO> getPartWorkers(int start, int length, String collumnName, boolean isAsc);
 
     Number getTotalRow();
 

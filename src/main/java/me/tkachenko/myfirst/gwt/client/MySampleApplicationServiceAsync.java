@@ -8,7 +8,7 @@ import java.util.List;
 public interface MySampleApplicationServiceAsync {
     void getListWorkers(AsyncCallback<List<WorkerDTO>> async);
 
-    void getPartWorkers(int start, int length, String col, AsyncCallback<List<WorkerDTO>> async);
+    void getPartWorkers(int start, int length, String collumnName, boolean isAsc, AsyncCallback<List<WorkerDTO>> async);
 
     void getTotalRow(AsyncCallback<Number> async);
 }

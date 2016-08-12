@@ -26,9 +26,9 @@ public class WorkersServiceImpl implements WorkersService {
     }
 
 
-    public List<Worker> getPartWorkers(int start, int length, String col) {
+    public List<Worker> getPartWorkers(int start, int length, String collumnName, boolean isAsc) {
 
-        workerList = workersDAO.getPartWorkers(start, length, col);
+        workerList = workersDAO.getPartWorkers(start, length, collumnName, isAsc);
         return workerList;
     }
 

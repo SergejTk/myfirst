@@ -23,18 +23,21 @@ public class WorkersDAOImpl implements WorkersDAO {
     @Override
     @Transactional(readOnly = true)
     public List<Worker> getAllWorkers() {
-        //sessionFactory.getCurrentSession().createCriteria(Worker.class).setFirstResult(2);
+
 
         return sessionFactory.getCurrentSession().createCriteria(Worker.class).list();
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<Worker> getPartWorkers(int start, int length, String col) {
-        //List rowCount = sessionFactory.getCurrentSession().createCriteria(Worker.class).setProjection(Projections.rowCount()).list();
+    public List<Worker> getPartWorkers(int start, int length, String collumnName, boolean isAsc) {
+
+        if (collumnName == null) collumnName = "firstname";
+        if (!isAsc) return
+                sessionFactory.getCurrentSession().createCriteria(Worker.class).addOrder(Order.desc(collumnName)).setFirstResult(start).setMaxResults(length).list();
 
 
-        return sessionFactory.getCurrentSession().createCriteria(Worker.class).addOrder(Order.asc("firstname")).setFirstResult(start).setMaxResults(length).list();
+        return sessionFactory.getCurrentSession().createCriteria(Worker.class).addOrder(Order.asc(collumnName)).setFirstResult(start).setMaxResults(length).list();
     }
 
     @Override

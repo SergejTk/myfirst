@@ -36,14 +36,14 @@ public class MySampleApplicationServiceImpl extends RemoteServiceServlet impleme
         return workerDTOList;
     }
 
-    public List<WorkerDTO> getPartWorkers(int start, int length, String col) {
-        System.out.println("COLUMN =     " + col);
+    public List<WorkerDTO> getPartWorkers(int start, int length, String collumnName, boolean isAsc) {
+        System.out.println("COLUMN =     " + collumnName);
 
         List<Worker> list;
         List<WorkerDTO> workerDTOList = new ArrayList<>();
 
 
-        list = test.getPartWorkers(start, length, col);
+        list = test.getPartWorkers(start, length, collumnName, isAsc);
 
         for (Worker worker : list) {
             // System.out.println(worker);
@@ -51,13 +51,7 @@ public class MySampleApplicationServiceImpl extends RemoteServiceServlet impleme
 
         }
 
-        /*workerDTOList.sort(new Comparator<WorkerDTO>() {
-            @Override
-            public int compare(WorkerDTO o1, WorkerDTO o2) {
-                return o1.firstname.compareTo(o2.firstname);
-            }
-        });
-            */
+
         return workerDTOList;
     }
 

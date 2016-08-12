@@ -10,7 +10,7 @@ import java.util.List;
 public interface WorkersService {
     List<Worker> getAllWorkers();
 
-    List<Worker> getPartWorkers(int start, int length, String col);
+    List<Worker> getPartWorkers(int start, int length, String collumnName, boolean isAsc);
 
     Number getTotalRow();
 }

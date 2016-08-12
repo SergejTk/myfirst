@@ -50,13 +50,19 @@ public class MySampleApplication implements EntryPoint {
             final int start = range.getStart();
             int length = range.getLength();
 
-            final ColumnSortList sortList = tableListWorkers.getColumnSortList();
-            ColumnSortList.ColumnSortInfo coldd;
-            // if(sortList.get(0) != null) coldd  = sortList.get(0);
-
-
             // Column's  name for sort
-            String col = null;
+            String collumnName = null;
+
+            // Order sort
+            boolean isAsc = true;
+
+            final ColumnSortList sortList = tableListWorkers.getColumnSortList();
+            ColumnSortList.ColumnSortInfo sortInfo;
+            if (sortList.size() > 0) {
+                sortInfo = sortList.get(0);
+                collumnName = sortInfo.getColumn().getDataStoreName();
+                isAsc = sortInfo.isAscending();
+            }
 
             MySampleApplicationService.App.getInstance().getTotalRow(new AsyncCallback<Number>() {
                 @Override
@@ -72,7 +78,7 @@ public class MySampleApplication implements EntryPoint {
             });
 
 
-            MySampleApplicationService.App.getInstance().getPartWorkers(start, length, col, new AsyncCallback<List<WorkerDTO>>() {
+            MySampleApplicationService.App.getInstance().getPartWorkers(start, length, collumnName, isAsc, new AsyncCallback<List<WorkerDTO>>() {
 
 
                 @Override
@@ -104,6 +110,7 @@ public class MySampleApplication implements EntryPoint {
                 return object.def;
             }
         };
+        defColumn.setDataStoreName("def");
         tableListWorkers.addColumn(defColumn, "ID");
 
         // Add column to show the name.
@@ -114,6 +121,7 @@ public class MySampleApplication implements EntryPoint {
             }
         };
         tableListWorkers.addColumn(nameColumn, "Name");
+        nameColumn.setDataStoreName("name");
         nameColumn.setSortable(true);
 
         // Add column to show the firstname.
@@ -124,6 +132,7 @@ public class MySampleApplication implements EntryPoint {
             }
         };
         tableListWorkers.addColumn(firstnameColumn, "Firstname");
+        firstnameColumn.setDataStoreName("firstname");
         firstnameColumn.setSortable(true);
 
         // Add column to show the lastname.
@@ -134,6 +143,7 @@ public class MySampleApplication implements EntryPoint {
             }
         };
         tableListWorkers.addColumn(lastnameColumn, "Lastname");
+        lastnameColumn.setDataStoreName("lastname");
         lastnameColumn.setSortable(true);
 
         DateCell dateCell = new DateCell();
@@ -144,6 +154,7 @@ public class MySampleApplication implements EntryPoint {
             }
         };
         tableListWorkers.addColumn(dateColumn, "Birthday");
+        dateColumn.setDataStoreName("abc");
         dateColumn.setSortable(true);
 
         Column<WorkerDTO, Number> numberinvColumn = new Column<WorkerDTO, Number>(new NumberCell()) {
@@ -177,9 +188,6 @@ public class MySampleApplication implements EntryPoint {
 
 
         //------------------------------------------------------------
-
-
-
 
 
         //RootPanel.get().add(new Label("It is just  the  TEXT for TEST"));
