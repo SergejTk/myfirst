@@ -15,10 +15,10 @@ import java.util.List;
 public class MySampleApplicationServiceImpl extends RemoteServiceServlet implements MySampleApplicationService {
 
 
-    ApplicationContext context =
+    private ApplicationContext context =
             new AnnotationConfigApplicationContext(BeanConfig.class);
 
-    WorkersService test = context.getBean(WorkersService.class);
+    private WorkersService test = context.getBean(WorkersService.class);
 
     // Implementation of sample interface method
     public List<WorkerDTO> getListWorkers() {
@@ -29,24 +29,24 @@ public class MySampleApplicationServiceImpl extends RemoteServiceServlet impleme
         list = test.getAllWorkers();
 
         for (Worker worker : list) {
-            // System.out.println(worker);
+
             workerDTOList.add(getWorkerDTO(worker));
 
         }
         return workerDTOList;
     }
 
-    public List<WorkerDTO> getPartWorkers(int start, int length, String collumnName, boolean isAsc) {
-        System.out.println("COLUMN =     " + collumnName);
+    public List<WorkerDTO> getPartWorkers(int start, int length, String columnName, boolean isAsc) {
+
 
         List<Worker> list;
         List<WorkerDTO> workerDTOList = new ArrayList<>();
 
 
-        list = test.getPartWorkers(start, length, collumnName, isAsc);
+        list = test.getPartWorkers(start, length, columnName, isAsc);
 
         for (Worker worker : list) {
-            // System.out.println(worker);
+
             workerDTOList.add(getWorkerDTO(worker));
 
         }
@@ -59,7 +59,8 @@ public class MySampleApplicationServiceImpl extends RemoteServiceServlet impleme
         return test.getTotalRow();
     }
 
-    WorkerDTO getWorkerDTO(Worker worker) {
+    private WorkerDTO getWorkerDTO(Worker worker) {
+
         WorkerDTO workerDTO = new WorkerDTO();
         workerDTO.name = worker.getName();
         workerDTO.firstname = worker.getFirstname();

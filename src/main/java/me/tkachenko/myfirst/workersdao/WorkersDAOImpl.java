@@ -1,6 +1,7 @@
 package me.tkachenko.myfirst.workersdao;
 
 import me.tkachenko.myfirst.model.Worker;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -30,21 +31,32 @@ public class WorkersDAOImpl implements WorkersDAO {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Worker> getPartWorkers(int start, int length, String collumnName, boolean isAsc) {
+    public List<Worker> getPartWorkers(int start, int length, String columnName, boolean isAsc) {
 
-        if (collumnName == null) collumnName = "firstname";
-        if (!isAsc) return
-                sessionFactory.getCurrentSession().createCriteria(Worker.class).addOrder(Order.desc(collumnName)).setFirstResult(start).setMaxResults(length).list();
+        if (columnName == null) columnName = "def";
 
 
-        return sessionFactory.getCurrentSession().createCriteria(Worker.class).addOrder(Order.asc(collumnName)).setFirstResult(start).setMaxResults(length).list();
+        Criteria criteria = sessionFactory.getCurrentSession()
+                .createCriteria(Worker.class)
+                .setFirstResult(start)
+                .setMaxResults(length);
+
+        if (isAsc) criteria = criteria.addOrder(Order.asc(columnName));
+        else criteria = criteria.addOrder(Order.desc(columnName));
+
+        return criteria.list();
+
+
     }
 
     @Override
     @Transactional(readOnly = true)
     public Number getTotalRow() {
 
-        return (Number) sessionFactory.getCurrentSession().createCriteria(Worker.class).setProjection(Projections.rowCount()).uniqueResult();
+        return (Number) sessionFactory.getCurrentSession()
+                .createCriteria(Worker.class)
+                .setProjection(Projections.rowCount())
+                .uniqueResult();
 
 
     }

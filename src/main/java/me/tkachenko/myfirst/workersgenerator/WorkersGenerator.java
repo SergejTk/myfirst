@@ -20,9 +20,9 @@ public class WorkersGenerator {
     public static void createWorker(String... args) {
 
 
-        String[] names = new String[]{"Vanja", "Petja", "Pafnutiy", "Modest", "Osja", "Lev"};
-        String[] firstnames = new String[]{"Pupkin", "Aaa", "Bbb", "Ccc", "Ddd", "Fff", "Ggg", "Hhh"};
-        String[] lastnames = new String[]{"Qwer", "Asdf", "Zxcv", "Bnmm", "Jkld"};
+        String[] names = new String[]{"Vanja", "Petja", "Pafnutiy", "Modest", "Osja", "Lev", "Evlampij", "Sigizmund", "Foma"};
+        String[] firstnames = new String[]{"Pupkin", "Aaa", "Bbb", "Ccc", "Ddd", "Fff", "Ggg", "Hhh", "Zuzin", "Svintus"};
+        String[] lastnames = new String[]{"Qwer", "Asdf", "Zxcv", "Bnmm", "Jkld", "Dghgj", "Fofon", "Coco", "Rrrrr", "Pushh", "Xyz", "Lari", "Givi"};
 
         Random r = new Random();
         String path = "C:\\workers.csv";
@@ -31,7 +31,7 @@ public class WorkersGenerator {
 
         try (PrintWriter pw = new PrintWriter(path)) {
 
-            for (int i = 1; i <= 150; i++) {
+            for (int i = 1; i <= 10000; i++) {
                 Worker worker = new Worker();
                 worker.setName(names[i % names.length]);
                 worker.setFirstname(firstnames[i % firstnames.length]);

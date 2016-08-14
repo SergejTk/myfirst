@@ -17,7 +17,6 @@ import com.google.gwt.view.client.Range;
 import com.google.gwt.view.client.SingleSelectionModel;
 import me.tkachenko.myfirst.gwt.shared.WorkerDTO;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,8 +25,8 @@ import java.util.List;
  */
 public class MySampleApplication implements EntryPoint {
 
-    private static DataGrid<WorkerDTO> tableListWorkers = new DataGrid<>();
-    private static List<WorkerDTO> workerDTOList = new ArrayList<>();
+    private DataGrid<WorkerDTO> tableListWorkers = new DataGrid<>();
+
 
 
     /**
@@ -35,12 +34,10 @@ public class MySampleApplication implements EntryPoint {
      */
     public void onModuleLoad() {
 
-
         createDataGrid();
 
-        //MySampleApplicationService.App.getInstance().getListWorkers(callback);
-
     }
+
 
     private class DataProvider extends AsyncDataProvider<WorkerDTO> {
 
@@ -51,7 +48,7 @@ public class MySampleApplication implements EntryPoint {
             int length = range.getLength();
 
             // Column's  name for sort
-            String collumnName = null;
+            String columnName = null;
 
             // Order sort
             boolean isAsc = true;
@@ -60,7 +57,7 @@ public class MySampleApplication implements EntryPoint {
             ColumnSortList.ColumnSortInfo sortInfo;
             if (sortList.size() > 0) {
                 sortInfo = sortList.get(0);
-                collumnName = sortInfo.getColumn().getDataStoreName();
+                columnName = sortInfo.getColumn().getDataStoreName();
                 isAsc = sortInfo.isAscending();
             }
 
@@ -68,17 +65,17 @@ public class MySampleApplication implements EntryPoint {
                 @Override
                 public void onFailure(Throwable caught) {
                     // TODO: Do something with errors.
-                    Window.alert("ERROR from SERVER !");
+                    Window.alert("ERROR from SERVER !!!");
                 }
 
                 @Override
                 public void onSuccess(Number result) {
-                    tableListWorkers.setRowCount((int) result, true);
+                    tableListWorkers.setRowCount(result.intValue(), true);
                 }
             });
 
 
-            MySampleApplicationService.App.getInstance().getPartWorkers(start, length, collumnName, isAsc, new AsyncCallback<List<WorkerDTO>>() {
+            MySampleApplicationService.App.getInstance().getPartWorkers(start, length, columnName, isAsc, new AsyncCallback<List<WorkerDTO>>() {
 
 
                 @Override
@@ -90,7 +87,6 @@ public class MySampleApplication implements EntryPoint {
                 @Override
                 public void onSuccess(List<WorkerDTO> result) {
 
-                    workerDTOList = result;
                     updateRowData(start, result);
 
                 }
@@ -169,6 +165,7 @@ public class MySampleApplication implements EntryPoint {
         final SingleSelectionModel<WorkerDTO> selectionModel = new SingleSelectionModel<WorkerDTO>();
         tableListWorkers.setSelectionModel(selectionModel);
 
+
         SimplePager pager;
         // Create a Pager to control the table.
         SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
@@ -176,9 +173,9 @@ public class MySampleApplication implements EntryPoint {
         pager.setDisplay(tableListWorkers);
         pager.setPageSize(20);
 
+
         DataProvider dataProvider = new DataProvider();
         dataProvider.addDataDisplay(tableListWorkers);
-
         // --------------------------------------------------------
 
 
@@ -189,8 +186,6 @@ public class MySampleApplication implements EntryPoint {
 
         //------------------------------------------------------------
 
-
-        //RootPanel.get().add(new Label("It is just  the  TEXT for TEST"));
         RootLayoutPanel rootPanel = RootLayoutPanel.get();
         DockLayoutPanel layout = new DockLayoutPanel(Style.Unit.PX);
         layout.addNorth(new HTMLPanel("h1", "Workers List"), 80);
@@ -200,27 +195,11 @@ public class MySampleApplication implements EntryPoint {
 
         layout.add(tableListWorkers);
 
-        //VerticalPanel verticalPanel = new VerticalPanel();
-        // verticalPanel.add(pager);
         rootPanel.add(layout);
-        //rootPanel.add(verticalPanel);
-        //RootPanel.get().add(tableListWorkers);
-        //RootPanel.get("workersList").add(new Label("It is just the text"));
 
     }
 
 
-    AsyncCallback<List<WorkerDTO>> callback = new AsyncCallback<List<WorkerDTO>>() {
-        public void onFailure(Throwable caught) {
-            // TODO: Do something with errors.
-        }
-
-        public void onSuccess(List<WorkerDTO> result) {
-            tableListWorkers.setRowCount(result.size(), true);
-            //workers = result;
-            //createDataGrid();
-        }
-    };
 
 
 }

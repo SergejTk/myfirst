@@ -9,10 +9,10 @@ import java.util.List;
 
 @RemoteServiceRelativePath("MySampleApplicationService")
 public interface MySampleApplicationService extends RemoteService {
-    // Sample interface method of remote interface
+
     List<WorkerDTO> getListWorkers();
 
-    List<WorkerDTO> getPartWorkers(int start, int length, String collumnName, boolean isAsc);
+    List<WorkerDTO> getPartWorkers(int start, int length, String columnName, boolean isAsc);
 
     Number getTotalRow();
 

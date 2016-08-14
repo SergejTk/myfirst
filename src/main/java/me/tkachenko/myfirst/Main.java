@@ -8,17 +8,7 @@ import me.tkachenko.myfirst.workersgenerator.WorkersGenerator;
 public class Main {
 
     public static void main(String[] args) {
-       /* List<Worker> list;
-        ApplicationContext context =
-                new AnnotationConfigApplicationContext(BeanConfig.class);
 
-
-        WorkersService test = context.getBean(WorkersService.class);
-        list = test.getAllWorkers();
-
-        for (Worker worker : list)
-            System.out.println(worker);
-            */
         WorkersGenerator.createWorker();
     }
 }
