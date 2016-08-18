@@ -3,6 +3,7 @@ package me.tkachenko.myfirst.gwt.client;
 import com.google.gwt.user.cellview.client.ColumnSortList;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.Range;
@@ -13,19 +14,24 @@ import java.util.List;
 /**
  * Created by ִלטענטי on 18.08.2016.
  */
-public class Presenter {
-    MyView view;
+public class WorkersPresenter {
+    WorkersView view;
 
-    public interface SetDataProvider {
+    public interface View {
 
-        void setDataProvider(DataProvider provider);
+        void setDataProvider(AbstractDataProvider provider);
     }
 
-    Presenter(MyView view) {
+    WorkersPresenter(WorkersView view) {
         this.view = view;
     }
 
-    public class DataProvider extends AsyncDataProvider<WorkerDTO> {
+    void go(HasWidgets container) {
+        container.add(view.createDataGrid());
+
+    }
+
+    public class AbstractDataProvider extends AsyncDataProvider<WorkerDTO> {
 
         @Override
         protected void onRangeChanged(HasData<WorkerDTO> display) {

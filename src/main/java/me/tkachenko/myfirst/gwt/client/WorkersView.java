@@ -7,7 +7,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.cellview.client.*;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.view.client.SingleSelectionModel;
 import me.tkachenko.myfirst.gwt.shared.WorkerDTO;
 
@@ -16,7 +15,7 @@ import java.util.Date;
 /**
  * Created by ִלטענטי on 18.08.2016.
  */
-public class MyView implements Presenter.SetDataProvider {
+public class WorkersView implements WorkersPresenter.View {
 
     private DataGrid<WorkerDTO> tableListWorkers = new DataGrid<>();
 
@@ -26,13 +25,13 @@ public class MyView implements Presenter.SetDataProvider {
     }
 
     @Override
-    public void setDataProvider(Presenter.DataProvider provider) {
+    public void setDataProvider(WorkersPresenter.AbstractDataProvider provider) {
         provider.addDataDisplay(tableListWorkers);
 
 
     }
 
-    void createDataGrid() {
+    DockLayoutPanel createDataGrid() {
 
         tableListWorkers.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
         Column<WorkerDTO, Number> defColumn = new Column<WorkerDTO, Number>(new NumberCell()) {
@@ -121,16 +120,16 @@ public class MyView implements Presenter.SetDataProvider {
 
         //------------------------------------------------------------
 
-        RootLayoutPanel rootPanel = RootLayoutPanel.get();
+        //  RootLayoutPanel rootPanel = RootLayoutPanel.get();
+
         DockLayoutPanel layout = new DockLayoutPanel(Style.Unit.PX);
         layout.addNorth(new HTMLPanel("h1", "Workers List"), 80);
-
-
         layout.addSouth(pager, 220);
-
         layout.add(tableListWorkers);
 
-        rootPanel.add(layout);
+        // rootPanel.add(layout);
+
+        return layout;
 
     }
 }

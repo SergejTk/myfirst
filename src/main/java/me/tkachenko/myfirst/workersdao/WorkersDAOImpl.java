@@ -7,7 +7,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class WorkersDAOImpl implements WorkersDAO {
     SessionFactory sessionFactory;
 
     @Override
-    @Transactional(readOnly = true)
+    //@Transactional(readOnly = true)
     public List<Worker> getAllWorkers() {
 
 
@@ -30,7 +29,7 @@ public class WorkersDAOImpl implements WorkersDAO {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    //@Transactional(readOnly = true)
     public List<Worker> getPartWorkers(int start, int length, String columnName, boolean isAsc) {
 
         if (columnName == null) columnName = "def";
@@ -50,7 +49,7 @@ public class WorkersDAOImpl implements WorkersDAO {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    //@Transactional(readOnly = true)
     public Number getTotalRow() {
 
         return (Number) sessionFactory.getCurrentSession()

@@ -1,6 +1,7 @@
 package me.tkachenko.myfirst.gwt.client;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>
@@ -16,13 +17,10 @@ public class MySampleApplication implements EntryPoint {
      */
     public void onModuleLoad() {
 
-        MyView myView = new MyView();
-        Presenter presenter = new Presenter(myView);
-        myView.createDataGrid();
-        myView.setDataProvider(presenter.new DataProvider());
-
-
-        // createDataGrid();
+        WorkersView workersView = new WorkersView();
+        WorkersPresenter presenter = new WorkersPresenter(workersView);
+        presenter.go(RootLayoutPanel.get());
+        workersView.setDataProvider(presenter.new AbstractDataProvider());
 
     }
     /*
