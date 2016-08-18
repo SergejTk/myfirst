@@ -15,7 +15,7 @@ import java.util.List;
 public class WorkersServiceImpl implements WorkersService {
     @Resource
     private WorkersDAO workersDAO;
-    private Number countRow;
+
 
 
     /**
@@ -45,7 +45,6 @@ public class WorkersServiceImpl implements WorkersService {
 
     public Number getTotalRow() {
 
-        countRow = workersDAO.getTotalRow();
-        return countRow;
+        return workersDAO.getTotalRow();
     }
 }

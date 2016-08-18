@@ -1,4 +1,4 @@
-package me.tkachenko.myfirst.workersgenerator;
+package me.tkachenko.myfirst.utils;
 
 //import org.hibernate.Session;
 //import org.hibernate.SessionFactory;

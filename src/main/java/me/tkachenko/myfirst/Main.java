@@ -1,6 +1,6 @@
 package me.tkachenko.myfirst;
 
-import me.tkachenko.myfirst.workersgenerator.WorkersGenerator;
+import me.tkachenko.myfirst.utils.WorkersGenerator;
 
 /**
  * Created by Sergej on 19.07.2016.
