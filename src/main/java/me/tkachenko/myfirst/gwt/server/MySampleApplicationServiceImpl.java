@@ -36,6 +36,7 @@ public class MySampleApplicationServiceImpl extends RemoteServiceServlet impleme
         return workerDTOList;
     }
 
+    // Implementation of sample interface method
     public List<WorkerDTO> getPartWorkers(int start, int length, String columnName, boolean isAsc) {
 
 
@@ -55,6 +56,7 @@ public class MySampleApplicationServiceImpl extends RemoteServiceServlet impleme
         return workerDTOList;
     }
 
+    // Implementation of sample interface method
     public Number getTotalRow() {
         return test.getTotalRow();
     }
@@ -62,16 +64,16 @@ public class MySampleApplicationServiceImpl extends RemoteServiceServlet impleme
     private WorkerDTO getWorkerDTO(Worker worker) {
 
         WorkerDTO workerDTO = new WorkerDTO();
-        workerDTO.name = worker.getName();
-        workerDTO.firstname = worker.getFirstname();
-        workerDTO.lastname = worker.getLastname();
-        workerDTO.groups = worker.getGroups();
-        workerDTO.adr = worker.getAdr();
-        workerDTO.kurs = worker.getKurs();
-        workerDTO.ball = worker.getBall();
-        workerDTO.numberinv = worker.getNumberinv();
-        workerDTO.abc = worker.getAbc();
-        workerDTO.def = worker.getDef();
+        workerDTO.setName(worker.getName());
+        workerDTO.setFirstname(worker.getFirstname());
+        workerDTO.setLastname(worker.getLastname());
+        workerDTO.setGroups(worker.getGroups());
+        workerDTO.setAdr(worker.getAdr());
+        workerDTO.setKurs(worker.getKurs());
+        workerDTO.setBall(worker.getBall());
+        workerDTO.setNumberinv(worker.getNumberinv());
+        workerDTO.setAbc(worker.getAbc());
+        workerDTO.setDef(worker.getDef());
 
         return workerDTO;
     }

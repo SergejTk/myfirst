@@ -15,6 +15,10 @@ import java.util.Random;
 /**
  * Created by Sergej on 11.07.2016.
  */
+
+/**
+ * Create a list in a file for data base
+ */
 public class WorkersGenerator {
 
     public static void createWorker(String... args) {

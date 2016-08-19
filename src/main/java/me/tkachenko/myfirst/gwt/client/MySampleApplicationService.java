@@ -10,10 +10,26 @@ import java.util.List;
 @RemoteServiceRelativePath("MySampleApplicationService")
 public interface MySampleApplicationService extends RemoteService {
 
+
+    /**
+     * @return Returns an list containing all of the elements
+     */
     List<WorkerDTO> getListWorkers();
 
+
+    /**
+     * @param start      Number of the first recording range
+     * @param length     Amount rows of range
+     * @param columnName Column is the sorting
+     * @param isAsc      Sorting order (true:  Ascending,   false: descending)
+     * @return Returns the list of the specified range
+     */
     List<WorkerDTO> getPartWorkers(int start, int length, String columnName, boolean isAsc);
 
+
+    /**
+     * @return Returns the total number of rows of the list
+     */
     Number getTotalRow();
 
     /**

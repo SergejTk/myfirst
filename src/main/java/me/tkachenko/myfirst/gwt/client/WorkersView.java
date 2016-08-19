@@ -15,7 +15,7 @@ import me.tkachenko.myfirst.gwt.shared.WorkerDTO;
 import java.util.Date;
 
 /**
- * Created by Дмитрий on 18.08.2016.
+ * Created by Sergej on 18.08.2016.
  */
 public class WorkersView implements WorkersPresenter.View {
 
@@ -43,13 +43,16 @@ public class WorkersView implements WorkersPresenter.View {
         return sortList.size() > 0 ? sortList.get(0) : null;
     }
 
+    // Create table (DataGrid)
     DockLayoutPanel createDataGrid() {
 
         tableListWorkers.setKeyboardSelectionPolicy(HasKeyboardSelectionPolicy.KeyboardSelectionPolicy.ENABLED);
+
+        // Add column to show the ID.
         Column<WorkerDTO, Number> defColumn = new Column<WorkerDTO, Number>(new NumberCell()) {
             @Override
             public Number getValue(WorkerDTO object) {
-                return object.def;
+                return object.getDef();
             }
         };
         defColumn.setDataStoreName("def");
@@ -59,7 +62,7 @@ public class WorkersView implements WorkersPresenter.View {
         TextColumn<WorkerDTO> nameColumn = new TextColumn<WorkerDTO>() {
             @Override
             public String getValue(WorkerDTO object) {
-                return object.name;
+                return object.getName();
             }
         };
         tableListWorkers.addColumn(nameColumn, "Name");
@@ -70,7 +73,7 @@ public class WorkersView implements WorkersPresenter.View {
         TextColumn<WorkerDTO> firstnameColumn = new TextColumn<WorkerDTO>() {
             @Override
             public String getValue(WorkerDTO object) {
-                return object.firstname;
+                return object.getFirstname();
             }
         };
         tableListWorkers.addColumn(firstnameColumn, "Firstname");
@@ -81,7 +84,7 @@ public class WorkersView implements WorkersPresenter.View {
         TextColumn<WorkerDTO> lastnameColumn = new TextColumn<WorkerDTO>() {
             @Override
             public String getValue(WorkerDTO object) {
-                return object.lastname;
+                return object.getLastname();
             }
         };
         tableListWorkers.addColumn(lastnameColumn, "Lastname");
@@ -92,7 +95,7 @@ public class WorkersView implements WorkersPresenter.View {
         Column<WorkerDTO, Date> dateColumn = new Column<WorkerDTO, Date>(dateCell) {
             @Override
             public Date getValue(WorkerDTO object) {
-                return object.abc;
+                return object.getAbc();
             }
         };
         tableListWorkers.addColumn(dateColumn, "Birthday");
@@ -102,7 +105,7 @@ public class WorkersView implements WorkersPresenter.View {
         Column<WorkerDTO, Number> numberinvColumn = new Column<WorkerDTO, Number>(new NumberCell()) {
             @Override
             public Number getValue(WorkerDTO object) {
-                return object.numberinv;
+                return object.getNumberinv();
             }
         };
         tableListWorkers.addColumn(numberinvColumn, "№ Sertificate");

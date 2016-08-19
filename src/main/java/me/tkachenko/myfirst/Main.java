@@ -8,7 +8,9 @@ import me.tkachenko.myfirst.utils.WorkersGenerator;
 public class Main {
 
     public static void main(String[] args) {
-
+        /**
+         * Create a list in a file for data base
+         */
         WorkersGenerator.createWorker();
     }
 }

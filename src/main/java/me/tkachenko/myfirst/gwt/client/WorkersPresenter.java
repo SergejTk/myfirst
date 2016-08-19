@@ -14,7 +14,7 @@ import me.tkachenko.myfirst.gwt.shared.WorkerDTO;
 import java.util.List;
 
 /**
- * Created by Дмитрий on 18.08.2016.
+ * Created by Sergej on 18.08.2016.
  */
 public class WorkersPresenter {
     View view;
@@ -23,8 +23,17 @@ public class WorkersPresenter {
 
     public interface View extends IsWidget {
 
+        /**
+         * Create provider for View
+         *
+         * @param provider the provider is used
+         */
         void setDataProvider(AbstractDataProvider<WorkerDTO> provider);
 
+        /**
+         * Get a ColumnSortList.ColumnSortInfo for View
+         * @return an  instance
+         */
         ColumnSortList.ColumnSortInfo getSortInfo();
     }
 
@@ -32,6 +41,10 @@ public class WorkersPresenter {
         this.view = view;
     }
 
+    /**
+     * initializes provider
+     * @param container used Widget for image display
+     */
     void go(HasWidgets container) {
         if (!isInit) {
             view.setDataProvider(new DataProvider());
@@ -41,6 +54,9 @@ public class WorkersPresenter {
 
     }
 
+    /**
+     * Create Provider
+     */
     public class DataProvider extends AsyncDataProvider<WorkerDTO> {
 
         @Override
@@ -61,7 +77,7 @@ public class WorkersPresenter {
                 columnName = sortInfo.getColumn().getDataStoreName();
                 isAsc = sortInfo.isAscending();
             }
-
+            // return total number of rows of list
             MySampleApplicationService.App.getInstance().getTotalRow(new AsyncCallback<Number>() {
                 @Override
                 public void onFailure(Throwable caught) {
@@ -76,6 +92,7 @@ public class WorkersPresenter {
                 }
             });
 
+            // Returns the list of the specified range
 
             MySampleApplicationService.App.getInstance().getPartWorkers(start, length, columnName, isAsc, new AsyncCallback<List<WorkerDTO>>() {
 
