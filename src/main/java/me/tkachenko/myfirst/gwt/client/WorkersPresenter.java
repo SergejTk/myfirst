@@ -34,8 +34,7 @@ public class WorkersPresenter {
 
     void go(HasWidgets container) {
         if (!isInit) {
-            DataProvider provider = new DataProvider();
-            view.setDataProvider(provider);
+            view.setDataProvider(new DataProvider());
             isInit = true;
         }
         container.add(view.asWidget());
@@ -56,7 +55,7 @@ public class WorkersPresenter {
             // Order sort
             boolean isAsc = true;
 
-            //final ColumnSortList sortList = view.getTableListWorkers().getColumnSortList();
+
             ColumnSortList.ColumnSortInfo sortInfo = view.getSortInfo();
             if (sortInfo != null) {
                 columnName = sortInfo.getColumn().getDataStoreName();

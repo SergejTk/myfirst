@@ -120,8 +120,6 @@ public class WorkersView implements WorkersPresenter.View {
         pager.setPageSize(20);
 
 
-        //DataProvider dataProvider = new DataProvider();
-        //dataProvider.addDataDisplay(tableListWorkers);
         // --------------------------------------------------------
 
 
@@ -132,14 +130,12 @@ public class WorkersView implements WorkersPresenter.View {
 
         //------------------------------------------------------------
 
-        //  RootLayoutPanel rootPanel = RootLayoutPanel.get();
 
         layout = new DockLayoutPanel(Style.Unit.PX);
         layout.addNorth(new HTMLPanel("h1", "Workers List"), 80);
         layout.addSouth(pager, 220);
         layout.add(tableListWorkers);
 
-        // rootPanel.add(layout);
 
         return layout;
 
