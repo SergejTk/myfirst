@@ -7,28 +7,40 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.cellview.client.*;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.AbstractDataProvider;
 import com.google.gwt.view.client.SingleSelectionModel;
 import me.tkachenko.myfirst.gwt.shared.WorkerDTO;
 
 import java.util.Date;
 
 /**
- * Created by Äìèòðèé on 18.08.2016.
+ * Created by Ð”Ð¼Ð¸Ñ‚Ñ€Ð¸Ð¹ on 18.08.2016.
  */
 public class WorkersView implements WorkersPresenter.View {
 
     private DataGrid<WorkerDTO> tableListWorkers = new DataGrid<>();
+    private DockLayoutPanel layout;
 
+    public WorkersView() {
+        layout = createDataGrid();
+    }
 
     public DataGrid<WorkerDTO> getTableListWorkers() {
         return tableListWorkers;
     }
 
     @Override
-    public void setDataProvider(WorkersPresenter.AbstractDataProvider provider) {
+    public void setDataProvider(AbstractDataProvider<WorkerDTO> provider) {
         provider.addDataDisplay(tableListWorkers);
 
 
+    }
+
+    @Override
+    public ColumnSortList.ColumnSortInfo getSortInfo() {
+        ColumnSortList sortList = getTableListWorkers().getColumnSortList();
+        return sortList.size() > 0 ? sortList.get(0) : null;
     }
 
     DockLayoutPanel createDataGrid() {
@@ -93,7 +105,7 @@ public class WorkersView implements WorkersPresenter.View {
                 return object.numberinv;
             }
         };
-        tableListWorkers.addColumn(numberinvColumn, "¹ Sertificate");
+        tableListWorkers.addColumn(numberinvColumn, "â„– Sertificate");
 
 
         final SingleSelectionModel<WorkerDTO> selectionModel = new SingleSelectionModel<WorkerDTO>();
@@ -122,7 +134,7 @@ public class WorkersView implements WorkersPresenter.View {
 
         //  RootLayoutPanel rootPanel = RootLayoutPanel.get();
 
-        DockLayoutPanel layout = new DockLayoutPanel(Style.Unit.PX);
+        layout = new DockLayoutPanel(Style.Unit.PX);
         layout.addNorth(new HTMLPanel("h1", "Workers List"), 80);
         layout.addSouth(pager, 220);
         layout.add(tableListWorkers);
@@ -131,5 +143,11 @@ public class WorkersView implements WorkersPresenter.View {
 
         return layout;
 
+    }
+
+
+    @Override
+    public Widget asWidget() {
+        return layout;
     }
 }

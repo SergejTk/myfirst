@@ -4,6 +4,8 @@ import com.google.gwt.user.cellview.client.ColumnSortList;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.view.client.AbstractDataProvider;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 import com.google.gwt.view.client.Range;
@@ -12,26 +14,35 @@ import me.tkachenko.myfirst.gwt.shared.WorkerDTO;
 import java.util.List;
 
 /**
- * Created by Äìèòðèé on 18.08.2016.
+ * Created by Ð”Ð¼Ð¸Ñ‚Ñ€Ð¸Ð¹ on 18.08.2016.
  */
 public class WorkersPresenter {
-    WorkersView view;
+    View view;
+    boolean isInit;
 
-    public interface View {
 
-        void setDataProvider(AbstractDataProvider provider);
+    public interface View extends IsWidget {
+
+        void setDataProvider(AbstractDataProvider<WorkerDTO> provider);
+
+        ColumnSortList.ColumnSortInfo getSortInfo();
     }
 
-    WorkersPresenter(WorkersView view) {
+    WorkersPresenter(View view) {
         this.view = view;
     }
 
     void go(HasWidgets container) {
-        container.add(view.createDataGrid());
+        if (!isInit) {
+            DataProvider provider = new DataProvider();
+            view.setDataProvider(provider);
+            isInit = true;
+        }
+        container.add(view.asWidget());
 
     }
 
-    public class AbstractDataProvider extends AsyncDataProvider<WorkerDTO> {
+    public class DataProvider extends AsyncDataProvider<WorkerDTO> {
 
         @Override
         protected void onRangeChanged(HasData<WorkerDTO> display) {
@@ -45,10 +56,9 @@ public class WorkersPresenter {
             // Order sort
             boolean isAsc = true;
 
-            final ColumnSortList sortList = view.getTableListWorkers().getColumnSortList();
-            ColumnSortList.ColumnSortInfo sortInfo;
-            if (sortList.size() > 0) {
-                sortInfo = sortList.get(0);
+            //final ColumnSortList sortList = view.getTableListWorkers().getColumnSortList();
+            ColumnSortList.ColumnSortInfo sortInfo = view.getSortInfo();
+            if (sortInfo != null) {
                 columnName = sortInfo.getColumn().getDataStoreName();
                 isAsc = sortInfo.isAscending();
             }
@@ -62,7 +72,8 @@ public class WorkersPresenter {
 
                 @Override
                 public void onSuccess(Number result) {
-                    view.getTableListWorkers().setRowCount(result.intValue(), true);
+                    updateRowCount(result.intValue(), true);
+
                 }
             });
 

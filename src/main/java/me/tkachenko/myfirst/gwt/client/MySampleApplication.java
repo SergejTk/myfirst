@@ -20,7 +20,7 @@ public class MySampleApplication implements EntryPoint {
         WorkersView workersView = new WorkersView();
         WorkersPresenter presenter = new WorkersPresenter(workersView);
         presenter.go(RootLayoutPanel.get());
-        workersView.setDataProvider(presenter.new AbstractDataProvider());
+
 
     }
     /*
