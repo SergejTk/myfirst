@@ -21,7 +21,6 @@ public class WorkersDAOImpl implements WorkersDAO {
     SessionFactory sessionFactory;
 
     @Override
-    //@Transactional(readOnly = true)
     public List<Worker> getAllWorkers() {
 
 
@@ -29,7 +28,6 @@ public class WorkersDAOImpl implements WorkersDAO {
     }
 
     @Override
-    //@Transactional(readOnly = true)
     public List<Worker> getPartWorkers(int start, int length, String columnName, boolean isAsc) {
 
         if (columnName == null) columnName = "def";
@@ -49,7 +47,6 @@ public class WorkersDAOImpl implements WorkersDAO {
     }
 
     @Override
-    //@Transactional(readOnly = true)
     public Number getTotalRow() {
 
         return (Number) sessionFactory.getCurrentSession()
