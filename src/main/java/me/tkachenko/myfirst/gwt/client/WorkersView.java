@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.AbstractDataProvider;
+import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import me.tkachenko.myfirst.gwt.shared.WorkerDTO;
 
@@ -114,7 +115,19 @@ public class WorkersView implements WorkersPresenter.View {
         final SingleSelectionModel<WorkerDTO> selectionModel = new SingleSelectionModel<WorkerDTO>();
         tableListWorkers.setSelectionModel(selectionModel);
 
+        // *****************-------------------------------------------------------
+        selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+            public void onSelectionChange(SelectionChangeEvent event) {
+                WorkerDTO workerDTO = selectionModel.getSelectedObject();
+                if (workerDTO != null) {
+                    //Window.alert( "You selected  " + workerDTO.getDef());
+                    new WorkerUpdate(workerDTO).createDialogBox();
+                }
+            }
 
+        });
+
+        //*******************----------------------------------------------------------------------
         SimplePager pager;
         // Create a Pager to control the table.
         SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
