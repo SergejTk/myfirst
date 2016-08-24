@@ -1,7 +1,7 @@
 package me.tkachenko.myfirst.gwt.client;
 
+
 import com.google.gwt.user.cellview.client.ColumnSortList;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -12,6 +12,8 @@ import com.google.gwt.view.client.Range;
 import me.tkachenko.myfirst.gwt.shared.WorkerDTO;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Sergej on 18.08.2016.
@@ -61,6 +63,7 @@ public class WorkersPresenter {
 
         @Override
         protected void onRangeChanged(HasData<WorkerDTO> display) {
+            final Logger logger = Logger.getLogger("Logger");
             Range range = display.getVisibleRange();
             final int start = range.getStart();
             int length = range.getLength();
@@ -82,7 +85,10 @@ public class WorkersPresenter {
                 @Override
                 public void onFailure(Throwable caught) {
                     // TODO: Do something with errors.
-                    Window.alert("ERROR from SERVER !!!");
+                    //Window.alert("ERROR from SERVER !!!");
+
+                    logger.log(Level.SEVERE, "ERROR total row from SERVER !!!");
+
                 }
 
                 @Override
@@ -100,7 +106,8 @@ public class WorkersPresenter {
                 @Override
                 public void onFailure(Throwable caught) {
                     // TODO: Do something with errors.
-                    Window.alert("ERROR from SERVER");
+                    //Window.alert("ERROR from SERVER");
+                    logger.log(Level.SEVERE, "ERROR data from SERVER !!!");
                 }
 
                 @Override
