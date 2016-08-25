@@ -111,6 +111,14 @@ public class WorkersView implements WorkersPresenter.View {
         };
         tableListWorkers.addColumn(numberinvColumn, "№ Sertificate");
 
+        Column<WorkerDTO, Number> kursColumn = new Column<WorkerDTO, Number>(new NumberCell()) {
+            @Override
+            public Number getValue(WorkerDTO object) {
+                return object.getKurs();
+            }
+        };
+        tableListWorkers.addColumn(kursColumn, "Course");
+
 
         final SingleSelectionModel<WorkerDTO> selectionModel = new SingleSelectionModel<WorkerDTO>();
         tableListWorkers.setSelectionModel(selectionModel);
