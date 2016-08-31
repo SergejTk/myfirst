@@ -37,4 +37,9 @@ public class WorkersServiceImpl implements WorkersService {
 
         return workersDAO.getTotalRow();
     }
+
+    @Transactional(readOnly = true)
+    public void updateWorker(Worker worker) {
+        workersDAO.updateWorker(worker);
+    }
 }

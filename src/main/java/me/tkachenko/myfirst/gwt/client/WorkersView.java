@@ -131,7 +131,8 @@ public class WorkersView implements WorkersPresenter.View {
                     //Window.alert( "You selected  " + workerDTO.getDef());
                     WorkerUpdate workerUpdate = new WorkerUpdate(workerDTO);
                     workerUpdate.createDialogBox();
-                    workerDTO = workerUpdate.getWorkerDTO();
+
+
                 }
             }
 

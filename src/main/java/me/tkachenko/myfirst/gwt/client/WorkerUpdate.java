@@ -3,20 +3,24 @@ package me.tkachenko.myfirst.gwt.client;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DatePicker;
 import me.tkachenko.myfirst.gwt.shared.WorkerDTO;
 
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Дмитрий on 24.08.2016.
  */
 public class WorkerUpdate {
     WorkerDTO workerDTO;
-
-    final DialogBox dialogBox = new DialogBox();
+    final Logger logger = Logger.getLogger("Logger");
+    DialogBox dialogBox = new DialogBox();
     HorizontalPanel horizontalPanel = new HorizontalPanel();
     VerticalPanel verticalPanel = new VerticalPanel();
     VerticalPanel verticalPanel2 = new VerticalPanel();
@@ -26,6 +30,8 @@ public class WorkerUpdate {
     DatePicker datePicker = new DatePicker();
     DateBox dateBox = new DateBox();
     ListBox listBoxCourse = new ListBox();
+    FlowPanel flowPanel = new FlowPanel();
+
 
     WorkerUpdate(WorkerDTO workerDTO) {
         this.workerDTO = workerDTO;
@@ -69,37 +75,83 @@ public class WorkerUpdate {
         }
 
 
-        verticalPanel.add(new HTML("Name"));
+        verticalPanel.add(new HTML("NAME"));
         verticalPanel.add(textBoxForName);
         verticalPanel.add(new HTML("FirstName"));
         verticalPanel.add(textBoxForFirstName);
         verticalPanel.add(new HTML("LastName"));
         verticalPanel.add(textBoxForLastName);
+
+        // Add a CreateWorker button
+        Button createWorker = new Button("ADD", new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                // Add code here
+            }
+        });
+
+        Button removeWorker = new Button("REMOVE", new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                // Add code here
+            }
+        });
         // Add a close button at the bottom of the dialog
         Button closeButton = new Button(
                 "Ready", new ClickHandler() {
             public void onClick(ClickEvent event) {
                 workerDTO = updateWorker();
+                //Window.alert("Name =   " +  workerDTO.getName() + "    Kurs=  " + workerDTO.getKurs());
+                MySampleApplicationService.App.getInstance().updateWorker(workerDTO, new AsyncCallback<Void>() {
+                    @Override
+                    public void onFailure(Throwable caught) {
+                        // TODO: Do something with errors.
+                        //Window.alert("ERROR from SERVER !!!");
+
+                        logger.log(Level.SEVERE, "ERROR total row from SERVER !!!");
+
+                    }
+
+                    @Override
+                    public void onSuccess(Void v) {
+                        Window.alert("WORKER IS CHANGED");
+
+                    }
+                });
                 dialogBox.hide();
 
 
             }
         });
+
         verticalPanel.add(closeButton);
+        verticalPanel.add(createWorker);
+        verticalPanel.add(removeWorker);
+
+        //verticalPanel.add(closeButton);
         verticalPanel2.add(new HTML("Input Date"));
         verticalPanel2.add(dateBox);
         // horizontalPanel.add(datePicker);
+
         horizontalPanel.add(verticalPanel);
         horizontalPanel.add(verticalPanel2);
         horizontalPanel.add(listBoxCourse);
 
 
         dialogBox.setWidget(horizontalPanel);
+        /*
+        flowPanel.add(verticalPanel);
+        flowPanel.add(verticalPanel2);
+        flowPanel.add(listBoxCourse);
+        flowPanel.add(closeButton);
+        flowPanel.add(createWorker);
+        flowPanel.add(removeWorker);
+        */
+
+
         dialogBox.setText("You selected  " + workerDTO.getDef());
 
 
-        // dialogBox.setPixelSize(250, 375);
-        //dialogBox.setPopupPosition(800, 730);
         dialogBox.center();
         dialogBox.show();
 

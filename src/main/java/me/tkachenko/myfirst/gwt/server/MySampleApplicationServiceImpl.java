@@ -39,10 +39,8 @@ public class MySampleApplicationServiceImpl extends RemoteServiceServlet impleme
     // Implementation of sample interface method
     public List<WorkerDTO> getPartWorkers(int start, int length, String columnName, boolean isAsc) {
 
-
         List<Worker> list;
         List<WorkerDTO> workerDTOList = new ArrayList<>();
-
 
         list = test.getPartWorkers(start, length, columnName, isAsc);
 
@@ -76,5 +74,23 @@ public class MySampleApplicationServiceImpl extends RemoteServiceServlet impleme
         workerDTO.setDef(worker.getDef());
 
         return workerDTO;
+    }
+
+
+    public void updateWorker(WorkerDTO workerDTO) {
+        Worker worker = new Worker();
+        worker.setName(workerDTO.getName());
+        worker.setFirstname(workerDTO.getFirstname());
+        worker.setLastname(workerDTO.getLastname());
+        worker.setGroups(workerDTO.getGroups());
+        worker.setAdr(workerDTO.getAdr());
+        worker.setKurs(workerDTO.getKurs());
+        worker.setBall(workerDTO.getBall());
+        worker.setNumberinv(workerDTO.getNumberinv());
+        worker.setAbc(workerDTO.getAbc());
+        worker.setDef(workerDTO.getDef());
+
+        test.updateWorker(worker);
+
     }
 }

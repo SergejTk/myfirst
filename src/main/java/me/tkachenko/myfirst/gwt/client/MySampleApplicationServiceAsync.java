@@ -11,4 +11,6 @@ public interface MySampleApplicationServiceAsync {
     void getPartWorkers(int start, int length, String columnName, boolean isAsc, AsyncCallback<List<WorkerDTO>> async);
 
     void getTotalRow(AsyncCallback<Number> async);
+
+    void updateWorker(WorkerDTO workerDTO, AsyncCallback<Void> async);
 }

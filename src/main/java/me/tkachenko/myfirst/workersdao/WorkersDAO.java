@@ -27,4 +27,6 @@ public interface WorkersDAO {
      * @return Returns the total number of rows of the list
      */
     Number getTotalRow();
+
+    void updateWorker(Worker worker);
 }

@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 public class WorkersPresenter {
     View view;
     boolean isInit;
-
+    DataProvider provider = new DataProvider();
 
     public interface View extends IsWidget {
 
@@ -49,12 +49,13 @@ public class WorkersPresenter {
      */
     void go(HasWidgets container) {
         if (!isInit) {
-            view.setDataProvider(new DataProvider());
+            view.setDataProvider(provider);
             isInit = true;
         }
         container.add(view.asWidget());
 
     }
+
 
     /**
      * Create Provider

@@ -28,4 +28,7 @@ public interface WorkersService {
      */
 
     Number getTotalRow();
+
+
+    void updateWorker(Worker worker);
 }
