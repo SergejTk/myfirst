@@ -59,10 +59,15 @@ public class WorkersDAOImpl implements WorkersDAO {
 
 
     @Override
+
     public void updateWorker(Worker worker) {
-        System.out.println("ID =   " + worker.getDef() + "             NAME =   " + worker.getName() + "    KURS =  " + worker.getKurs());
+        System.out.println("ID =   " + worker.getDef() + "             NAME =   " + worker.getName() + "    KURS =  " + worker.getKurs() +
+                "   DATE=    " + worker.getAbc().toString());
         sessionFactory.getCurrentSession().saveOrUpdate(worker);
     }
 
-
+    @Override
+    public void deleteWorker(Worker worker) {
+        sessionFactory.getCurrentSession().delete(worker);
+    }
 }

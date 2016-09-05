@@ -13,4 +13,6 @@ public interface MySampleApplicationServiceAsync {
     void getTotalRow(AsyncCallback<Number> async);
 
     void updateWorker(WorkerDTO workerDTO, AsyncCallback<Void> async);
+
+    void deleteWorker(WorkerDTO workerDTO, AsyncCallback<Void> async);
 }

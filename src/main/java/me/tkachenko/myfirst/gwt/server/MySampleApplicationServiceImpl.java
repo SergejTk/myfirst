@@ -78,6 +78,19 @@ public class MySampleApplicationServiceImpl extends RemoteServiceServlet impleme
 
 
     public void updateWorker(WorkerDTO workerDTO) {
+        Worker worker = getWorker(workerDTO);
+
+        test.updateWorker(worker);
+
+    }
+
+
+    public void deleteWorker(WorkerDTO workerDTO) {
+        Worker worker = getWorker(workerDTO);
+        test.deleteWorker(worker);
+    }
+
+    private Worker getWorker(WorkerDTO workerDTO) {
         Worker worker = new Worker();
         worker.setName(workerDTO.getName());
         worker.setFirstname(workerDTO.getFirstname());
@@ -89,8 +102,7 @@ public class MySampleApplicationServiceImpl extends RemoteServiceServlet impleme
         worker.setNumberinv(workerDTO.getNumberinv());
         worker.setAbc(workerDTO.getAbc());
         worker.setDef(workerDTO.getDef());
-
-        test.updateWorker(worker);
+        return worker;
 
     }
 }

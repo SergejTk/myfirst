@@ -35,6 +35,8 @@ public interface MySampleApplicationService extends RemoteService {
 
     void updateWorker(WorkerDTO workerDTO);
 
+    void deleteWorker(WorkerDTO workerDTO);
+
     /**
      * Utility/Convenience class.
      * Use MySampleApplicationService.App.getInstance() to access static instance of MySampleApplicationServiceAsync

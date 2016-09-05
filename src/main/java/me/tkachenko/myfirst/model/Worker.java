@@ -1,10 +1,7 @@
 package me.tkachenko.myfirst.model;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -35,6 +32,8 @@ public class Worker {
     @Column(name = "abc")
     private Date abc;
     @Id
+    @SequenceGenerator(name = "worker_seq", sequenceName = "worker_idseq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "worker_seq")
     @Column(name = "def")
     private int def;
 

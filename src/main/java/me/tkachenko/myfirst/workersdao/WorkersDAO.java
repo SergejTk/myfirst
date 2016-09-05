@@ -29,4 +29,6 @@ public interface WorkersDAO {
     Number getTotalRow();
 
     void updateWorker(Worker worker);
+
+    void deleteWorker(Worker worker);
 }

@@ -31,4 +31,6 @@ public interface WorkersService {
 
 
     void updateWorker(Worker worker);
+
+    void deleteWorker(Worker worker);
 }
