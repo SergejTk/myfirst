@@ -3,22 +3,18 @@ package me.tkachenko.myfirst.gwt.client;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.datepicker.client.DateBox;
-import com.google.gwt.user.datepicker.client.DatePicker;
 import me.tkachenko.myfirst.gwt.shared.WorkerDTO;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created by Дмитрий on 24.08.2016.
  */
 public class WorkerUpdate {
     WorkerDTO workerDTO;
-    final Logger logger = Logger.getLogger("Logger");
+    static ChangeWorker changeWorker;
+
     DialogBox dialogBox = new DialogBox();
     HorizontalPanel horizontalPanel = new HorizontalPanel();
     VerticalPanel verticalPanel = new VerticalPanel();
@@ -27,7 +23,7 @@ public class WorkerUpdate {
     TextBox textBoxForName = new TextBox();
     TextBox textBoxForFirstName = new TextBox();
     TextBox textBoxForLastName = new TextBox();
-    DatePicker datePicker = new DatePicker();
+    TextBox textBoxSertificate = new TextBox();
     DateBox dateBox = new DateBox();
     ListBox listBoxCourse = new ListBox();
 
@@ -36,6 +32,18 @@ public class WorkerUpdate {
     WorkerUpdate(WorkerDTO workerDTO) {
         this.workerDTO = workerDTO;
 
+    }
+
+
+    WorkerUpdate(ChangeWorker changeWorker) {
+        this.changeWorker = changeWorker;
+    }
+
+    public interface ChangeWorker {
+
+        void updateWorker(WorkerDTO workerDTO);
+
+        void deleteWorker(WorkerDTO workerDTO);
     }
 
     public WorkerDTO getWorkerDTO() {
@@ -54,13 +62,7 @@ public class WorkerUpdate {
         horizontalPanel.setSpacing(30);
 
 
-        /*
-        datePicker.setYearArrowsVisible(true);
-        datePicker.setYearAndMonthDropdownVisible(true);
-        // show 31 years in the years dropdown. The range of years is centered on the selected date
-        datePicker.setVisibleYearCount(31);
-        datePicker.setValue(new Date(), true);
-        */
+
 
         // Create a DateBox
         DateTimeFormat dateFormat = DateTimeFormat.getMediumDateFormat();
@@ -74,10 +76,15 @@ public class WorkerUpdate {
             listBoxCourse.addItem("course " + i);
         }
         // if button "ADD" is pressed that "workerDTO == null"   ahd fields have to empty
-        if (workerDTO != null) {
+        if (workerDTO.getDef() != 0) {
             textBoxForName.setText(workerDTO.getName());
             textBoxForFirstName.setText(workerDTO.getFirstname());
             textBoxForLastName.setText(workerDTO.getLastname());
+            textBoxSertificate.setText(String.valueOf(workerDTO.getNumberinv()));
+            dateBox.setValue(workerDTO.getAbc());
+
+        } else {
+            textBoxSertificate.setText("");
         }
 
 
@@ -87,54 +94,31 @@ public class WorkerUpdate {
         verticalPanel.add(textBoxForFirstName);
         verticalPanel.add(new HTML("LASTNAME"));
         verticalPanel.add(textBoxForLastName);
+        verticalPanel.add(new HTML("№ Sertificate"));
+        verticalPanel.add(textBoxSertificate);
 
 
         Button removeWorker = new Button("REMOVE", new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                // Add code here
-                MySampleApplicationService.App.getInstance().deleteWorker(workerDTO, new AsyncCallback<Void>() {
-                    @Override
-                    public void onFailure(Throwable caught) {
-                        // TODO: Do something with errors.
-                        //Window.alert("ERROR from SERVER !!!");
 
-                        logger.log(Level.SEVERE, "ERROR total row from SERVER !!!");
+                changeWorker.deleteWorker(workerDTO);
 
-                    }
-
-                    @Override
-                    public void onSuccess(Void v) {
-                        Window.alert("WORKER IS DELETED");
-
-                    }
-                });
                 dialogBox.hide();
+
 
             }
         });
         // Add a close button at the bottom of the dialog
-        Button closeButton = new Button(
-                "Ready", new ClickHandler() {
+        Button closeButton = new Button("Ready", new ClickHandler() {
+            @Override
             public void onClick(ClickEvent event) {
+
+
                 workerDTO = updateWorker();
-                //Window.alert("Name =   " +  workerDTO.getName() + "    Kurs=  " + workerDTO.getKurs());
-                MySampleApplicationService.App.getInstance().updateWorker(workerDTO, new AsyncCallback<Void>() {
-                    @Override
-                    public void onFailure(Throwable caught) {
-                        // TODO: Do something with errors.
-                        //Window.alert("ERROR from SERVER !!!");
 
-                        logger.log(Level.SEVERE, "ERROR total row from SERVER !!!");
+                changeWorker.updateWorker(workerDTO);
 
-                    }
-
-                    @Override
-                    public void onSuccess(Void v) {
-                        Window.alert("WORKER IS CHANGED");
-
-                    }
-                });
                 dialogBox.hide();
 
 
@@ -184,6 +168,7 @@ public class WorkerUpdate {
         workerDTO.setLastname(textBoxForLastName.getText());
         workerDTO.setKurs(listBoxCourse.getSelectedIndex() + 1);
         workerDTO.setAbc(dateBox.getValue());
+        workerDTO.setNumberinv(Integer.parseInt(textBoxSertificate.getText()));
         return workerDTO;
     }
 

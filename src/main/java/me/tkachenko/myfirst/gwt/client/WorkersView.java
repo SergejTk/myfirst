@@ -9,8 +9,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.*;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -21,8 +19,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import me.tkachenko.myfirst.gwt.shared.WorkerDTO;
 
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  * Created by Sergej on 18.08.2016.
@@ -31,7 +28,6 @@ public class WorkersView implements WorkersPresenter.View {
 
     private DataGrid<WorkerDTO> tableListWorkers = new DataGrid<>();
     private DockLayoutPanel layout;
-    private final Logger logger = Logger.getLogger("Logger");
     public WorkersView() {
         layout = createDataGrid();
     }
@@ -51,6 +47,11 @@ public class WorkersView implements WorkersPresenter.View {
     public ColumnSortList.ColumnSortInfo getSortInfo() {
         ColumnSortList sortList = getTableListWorkers().getColumnSortList();
         return sortList.size() > 0 ? sortList.get(0) : null;
+    }
+
+    @Override
+    public void refreshTable() {
+        tableListWorkers.setVisibleRangeAndClearData(tableListWorkers.getVisibleRange(), true);
     }
 
     // Create table (DataGrid)
@@ -141,44 +142,35 @@ public class WorkersView implements WorkersPresenter.View {
             @Override
             public void update(int index, WorkerDTO object, String value) {
 
-                MySampleApplicationService.App.getInstance().deleteWorker(object, new AsyncCallback<Void>() {
-                    @Override
-                    public void onFailure(Throwable caught) {
-                        // TODO: Do something with errors.
-                        //Window.alert("ERROR from SERVER !!!");
-
-                        logger.log(Level.SEVERE, "ERROR total row from SERVER !!!");
-
-                    }
-
-                    @Override
-                    public void onSuccess(Void v) {
-                        Window.alert("WORKER is DELETED");
-
-                    }
-                });
+                new WorkersPresenter(WorkersView.this).deleteWorker(object);
 
             }
         });
         tableListWorkers.addColumn(removeWorker, "Remove");
 
-        //Add "ADD"  button
-        Button createWorker = new Button("ADD", new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-                WorkerDTO workerDTO = new WorkerDTO();
-                WorkerUpdate workerUpdate = new WorkerUpdate(workerDTO);
-                workerUpdate.createDialogBox();
-
-            }
-        });
-
-
-
 
         final SingleSelectionModel<WorkerDTO> selectionModel = new SingleSelectionModel<WorkerDTO>();
         tableListWorkers.setSelectionModel(selectionModel);
+
+
+        //*******************----------------------------------------------------------------------
+        final SimplePager pager;
+        // Create a Pager to control the table.
+        SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
+        pager = new SimplePager(SimplePager.TextLocation.CENTER, pagerResources, true, 0, true);
+        pager.setDisplay(tableListWorkers);
+
+        pager.setPageSize(20);
+
+
+        // ----------.----------------------------------------------
+
+        ColumnSortEvent.AsyncHandler columnSortHandler = new
+                ColumnSortEvent.AsyncHandler(tableListWorkers);
+        tableListWorkers.addColumnSortHandler(columnSortHandler);
+
+
+        //------------------------------------------------------------
 
         // *****************-------------------------------------------------------
         selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
@@ -195,24 +187,19 @@ public class WorkersView implements WorkersPresenter.View {
 
         });
 
-        //*******************----------------------------------------------------------------------
-        SimplePager pager;
-        // Create a Pager to control the table.
-        SimplePager.Resources pagerResources = GWT.create(SimplePager.Resources.class);
-        pager = new SimplePager(SimplePager.TextLocation.CENTER, pagerResources, true, 0, true);
-        pager.setDisplay(tableListWorkers);
-        pager.setPageSize(20);
 
+        //Add "ADD"  button
+        Button createWorker = new Button("ADD", new ClickHandler() {
 
-        // --------------------------------------------------------
+            @Override
+            public void onClick(ClickEvent event) {
+                WorkerDTO workerDTO = new WorkerDTO();
+                WorkerUpdate workerUpdate = new WorkerUpdate(workerDTO);
+                workerUpdate.createDialogBox();
 
+            }
+        });
 
-        ColumnSortEvent.AsyncHandler columnSortHandler = new
-                ColumnSortEvent.AsyncHandler(tableListWorkers);
-        tableListWorkers.addColumnSortHandler(columnSortHandler);
-
-
-        //------------------------------------------------------------
 
         createWorker.setPixelSize(120, 40);
         layout = new DockLayoutPanel(Style.Unit.PX);

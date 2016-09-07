@@ -32,7 +32,7 @@ public class Worker {
     @Column(name = "abc")
     private Date abc;
     @Id
-    @SequenceGenerator(name = "worker_seq", sequenceName = "worker_idseq")
+    @SequenceGenerator(name = "worker_seq", sequenceName = "worker_idseq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "worker_seq")
     @Column(name = "def")
     private int def;

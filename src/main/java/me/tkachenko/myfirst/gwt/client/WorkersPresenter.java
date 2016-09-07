@@ -2,6 +2,7 @@ package me.tkachenko.myfirst.gwt.client;
 
 
 import com.google.gwt.user.cellview.client.ColumnSortList;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -18,10 +19,11 @@ import java.util.logging.Logger;
 /**
  * Created by Sergej on 18.08.2016.
  */
-public class WorkersPresenter {
+public class WorkersPresenter implements WorkerUpdate.ChangeWorker {
     View view;
     boolean isInit;
     DataProvider provider = new DataProvider();
+    private final Logger logger = Logger.getLogger("Logger");
 
     public interface View extends IsWidget {
 
@@ -37,7 +39,10 @@ public class WorkersPresenter {
          * @return an  instance
          */
         ColumnSortList.ColumnSortInfo getSortInfo();
+
+        void refreshTable();
     }
+
 
     WorkersPresenter(View view) {
         this.view = view;
@@ -53,6 +58,7 @@ public class WorkersPresenter {
             isInit = true;
         }
         container.add(view.asWidget());
+
 
     }
 
@@ -99,6 +105,7 @@ public class WorkersPresenter {
                 }
             });
 
+
             // Returns the list of the specified range
 
             MySampleApplicationService.App.getInstance().getPartWorkers(start, length, columnName, isAsc, new AsyncCallback<List<WorkerDTO>>() {
@@ -122,5 +129,47 @@ public class WorkersPresenter {
 
         }
 
+    }
+
+    @Override
+    public void updateWorker(WorkerDTO workerDTO) {
+        MySampleApplicationService.App.getInstance().updateWorker(workerDTO, new AsyncCallback<Void>() {
+            @Override
+            public void onFailure(Throwable caught) {
+                // TODO: Do something with errors.
+                //Window.alert("ERROR from SERVER !!!");
+
+                logger.log(Level.SEVERE, "ERROR update from SERVER !!!");
+
+            }
+
+            @Override
+            public void onSuccess(Void v) {
+                Window.alert("WORKER IS CHANGED");
+                view.refreshTable();
+
+
+            }
+        });
+    }
+
+    @Override
+    public void deleteWorker(WorkerDTO workerDTO) {
+        MySampleApplicationService.App.getInstance().deleteWorker(workerDTO, new AsyncCallback<Void>() {
+            @Override
+            public void onFailure(Throwable caught) {
+                // TODO: Do something with errors.
+                //Window.alert("ERROR from SERVER !!!");
+
+                logger.log(Level.SEVERE, "ERROR  from SERVER !!!");
+
+            }
+
+            @Override
+            public void onSuccess(Void v) {
+                Window.alert("WORKER IS DELETED");
+                view.refreshTable();
+            }
+        });
     }
 }

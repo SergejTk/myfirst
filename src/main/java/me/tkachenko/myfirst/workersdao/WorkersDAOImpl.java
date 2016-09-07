@@ -62,7 +62,7 @@ public class WorkersDAOImpl implements WorkersDAO {
 
     public void updateWorker(Worker worker) {
         System.out.println("ID =   " + worker.getDef() + "             NAME =   " + worker.getName() + "    KURS =  " + worker.getKurs() +
-                "   DATE=    " + worker.getAbc().toString());
+                "   DATE=    " + worker.getAbc());
         sessionFactory.getCurrentSession().saveOrUpdate(worker);
     }
 

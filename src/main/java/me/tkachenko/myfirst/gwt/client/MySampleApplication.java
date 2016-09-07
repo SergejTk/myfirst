@@ -17,6 +17,7 @@ public class MySampleApplication implements EntryPoint {
 
         WorkersView workersView = new WorkersView();
         WorkersPresenter presenter = new WorkersPresenter(workersView);
+        WorkerUpdate workerUpdate = new WorkerUpdate(presenter);
         presenter.go(RootLayoutPanel.get());
 
 
