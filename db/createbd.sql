@@ -20,5 +20,6 @@ CREATE TABLE workers (
 COPY workers FROM 'C:\\workers.csv' WITH (
   FORMAT CSV );
 
+DROP SEQUENCE worker_idseq;
 
 CREATE SEQUENCE worker_idseq START 10001;

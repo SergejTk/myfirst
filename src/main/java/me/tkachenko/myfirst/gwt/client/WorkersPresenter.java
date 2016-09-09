@@ -1,15 +1,17 @@
 package me.tkachenko.myfirst.gwt.client;
 
 
+import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.ColumnSortList;
+import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.view.client.AbstractDataProvider;
-import com.google.gwt.view.client.AsyncDataProvider;
-import com.google.gwt.view.client.HasData;
-import com.google.gwt.view.client.Range;
+import com.google.gwt.view.client.*;
 import me.tkachenko.myfirst.gwt.shared.WorkerDTO;
 
 import java.util.List;
@@ -20,12 +22,16 @@ import java.util.logging.Logger;
  * Created by Sergej on 18.08.2016.
  */
 public class WorkersPresenter implements WorkerUpdate.ChangeWorker {
-    View view;
-    boolean isInit;
+    private View view;
+    private boolean isInit;
     DataProvider provider = new DataProvider();
-    private final Logger logger = Logger.getLogger("Logger");
+    private final Logger logger = Logger.getLogger("WorkersPresenter");
+    private WorkerUpdate workerUpdate = new WorkerUpdate(this);
+
 
     public interface View extends IsWidget {
+
+        DataGrid<WorkerDTO> getTableListWorkers();
 
         /**
          * Create provider for View
@@ -36,11 +42,17 @@ public class WorkersPresenter implements WorkerUpdate.ChangeWorker {
 
         /**
          * Get a ColumnSortList.ColumnSortInfo for View
+         *
          * @return an  instance
          */
         ColumnSortList.ColumnSortInfo getSortInfo();
 
         void refreshTable();
+
+        void setRemoveHandler(FieldUpdater handler);
+
+
+        Button getCreateWorkerButton();
     }
 
 
@@ -50,13 +62,48 @@ public class WorkersPresenter implements WorkerUpdate.ChangeWorker {
 
     /**
      * initializes provider
+     *
      * @param container used Widget for image display
      */
     void go(HasWidgets container) {
         if (!isInit) {
             view.setDataProvider(provider);
+            view.setRemoveHandler(new FieldUpdater() {
+                @Override
+                public void update(int index, Object object, Object value) {
+                    deleteWorker((WorkerDTO) object);
+                }
+            });
+
+            final SingleSelectionModel<WorkerDTO> selectionModel = new SingleSelectionModel<WorkerDTO>();
+            view.getTableListWorkers().setSelectionModel(selectionModel);
+
+            selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+                public void onSelectionChange(SelectionChangeEvent event) {
+                    WorkerDTO workerDTO = selectionModel.getSelectedObject();
+                    if (workerDTO != null) {
+                        //Window.alert( "You selected  " + workerDTO.getDef());
+                        workerUpdate.createDialogBox(workerDTO);
+
+
+                    }
+                }
+
+            });
+
+            view.getCreateWorkerButton().addClickHandler(new ClickHandler() {
+                                                             @Override
+                                                             public void onClick(ClickEvent event) {
+                                                                 workerUpdate.createDialogBox(new WorkerDTO());
+                                                             }
+                                                         }
+            );
+
             isInit = true;
+
         }
+
+
         container.add(view.asWidget());
 
 
@@ -70,7 +117,7 @@ public class WorkersPresenter implements WorkerUpdate.ChangeWorker {
 
         @Override
         protected void onRangeChanged(HasData<WorkerDTO> display) {
-            final Logger logger = Logger.getLogger("Logger");
+
             Range range = display.getVisibleRange();
             final int start = range.getStart();
             int length = range.getLength();
@@ -94,7 +141,8 @@ public class WorkersPresenter implements WorkerUpdate.ChangeWorker {
                     // TODO: Do something with errors.
                     //Window.alert("ERROR from SERVER !!!");
 
-                    logger.log(Level.SEVERE, "ERROR total row from SERVER !!!");
+                    logger.log(Level.SEVERE, "ERROR total row from SERVER !!!", caught);
+
 
                 }
 
@@ -115,7 +163,7 @@ public class WorkersPresenter implements WorkerUpdate.ChangeWorker {
                 public void onFailure(Throwable caught) {
                     // TODO: Do something with errors.
                     //Window.alert("ERROR from SERVER");
-                    logger.log(Level.SEVERE, "ERROR data from SERVER !!!");
+                    logger.log(Level.SEVERE, "ERROR data from SERVER !!!", caught);
                 }
 
                 @Override
@@ -139,7 +187,7 @@ public class WorkersPresenter implements WorkerUpdate.ChangeWorker {
                 // TODO: Do something with errors.
                 //Window.alert("ERROR from SERVER !!!");
 
-                logger.log(Level.SEVERE, "ERROR update from SERVER !!!");
+                logger.log(Level.SEVERE, "ERROR update from SERVER !!!", caught);
 
             }
 
@@ -161,7 +209,7 @@ public class WorkersPresenter implements WorkerUpdate.ChangeWorker {
                 // TODO: Do something with errors.
                 //Window.alert("ERROR from SERVER !!!");
 
-                logger.log(Level.SEVERE, "ERROR  from SERVER !!!");
+                logger.log(Level.SEVERE, "ERROR  from SERVER !!!", caught);
 
             }
 

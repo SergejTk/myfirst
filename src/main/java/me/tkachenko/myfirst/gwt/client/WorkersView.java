@@ -6,15 +6,12 @@ import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.*;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.AbstractDataProvider;
-import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import me.tkachenko.myfirst.gwt.shared.WorkerDTO;
 
@@ -26,12 +23,16 @@ import java.util.Date;
  */
 public class WorkersView implements WorkersPresenter.View {
 
+
     private DataGrid<WorkerDTO> tableListWorkers = new DataGrid<>();
     private DockLayoutPanel layout;
+    private Button createWorkerButton;
+
     public WorkersView() {
         layout = createDataGrid();
     }
 
+    @Override
     public DataGrid<WorkerDTO> getTableListWorkers() {
         return tableListWorkers;
     }
@@ -52,6 +53,11 @@ public class WorkersView implements WorkersPresenter.View {
     @Override
     public void refreshTable() {
         tableListWorkers.setVisibleRangeAndClearData(tableListWorkers.getVisibleRange(), true);
+    }
+
+    @Override
+    public void setRemoveHandler(FieldUpdater handler) {
+        tableListWorkers.getColumn(tableListWorkers.getColumnCount() - 1).setFieldUpdater(handler);
     }
 
     // Create table (DataGrid)
@@ -173,38 +179,18 @@ public class WorkersView implements WorkersPresenter.View {
         //------------------------------------------------------------
 
         // *****************-------------------------------------------------------
-        selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-            public void onSelectionChange(SelectionChangeEvent event) {
-                WorkerDTO workerDTO = selectionModel.getSelectedObject();
-                if (workerDTO != null) {
-                    //Window.alert( "You selected  " + workerDTO.getDef());
-                    WorkerUpdate workerUpdate = new WorkerUpdate(workerDTO);
-                    workerUpdate.createDialogBox();
 
 
-                }
-            }
-
-        });
 
 
         //Add "ADD"  button
-        Button createWorker = new Button("ADD", new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-                WorkerDTO workerDTO = new WorkerDTO();
-                WorkerUpdate workerUpdate = new WorkerUpdate(workerDTO);
-                workerUpdate.createDialogBox();
-
-            }
-        });
+        createWorkerButton = new Button("ADD");
 
 
-        createWorker.setPixelSize(120, 40);
+        createWorkerButton.setPixelSize(120, 40);
         layout = new DockLayoutPanel(Style.Unit.PX);
         layout.addNorth(new HTMLPanel("h1", "Workers List"), 80);
-        layout.addSouth(createWorker, 120);
+        layout.addSouth(createWorkerButton, 120);
         layout.addSouth(pager, 140);
         layout.add(tableListWorkers);
 
@@ -213,6 +199,10 @@ public class WorkersView implements WorkersPresenter.View {
 
     }
 
+    @Override
+    public Button getCreateWorkerButton() {
+        return createWorkerButton;
+    }
 
     @Override
     public Widget asWidget() {

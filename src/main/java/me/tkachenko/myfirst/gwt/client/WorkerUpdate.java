@@ -12,31 +12,29 @@ import me.tkachenko.myfirst.gwt.shared.WorkerDTO;
  * Created by Дмитрий on 24.08.2016.
  */
 public class WorkerUpdate {
-    WorkerDTO workerDTO;
-    static ChangeWorker changeWorker;
+    private WorkerDTO workerDTO;
+    private ChangeWorker changeWorker;
 
-    DialogBox dialogBox = new DialogBox();
-    HorizontalPanel horizontalPanel = new HorizontalPanel();
-    VerticalPanel verticalPanel = new VerticalPanel();
-    VerticalPanel verticalPanel2 = new VerticalPanel();
-    VerticalPanel verticalPanel3 = new VerticalPanel();
-    TextBox textBoxForName = new TextBox();
-    TextBox textBoxForFirstName = new TextBox();
-    TextBox textBoxForLastName = new TextBox();
-    TextBox textBoxSertificate = new TextBox();
-    DateBox dateBox = new DateBox();
-    ListBox listBoxCourse = new ListBox();
+    private DialogBox dialogBox = new DialogBox();
+    private HorizontalPanel horizontalPanel = new HorizontalPanel();
+    private VerticalPanel verticalPanel = new VerticalPanel();
+    private VerticalPanel verticalPanel2 = new VerticalPanel();
+    private VerticalPanel verticalPanel3 = new VerticalPanel();
+    private TextBox textBoxForName = new TextBox();
+    private TextBox textBoxForFirstName = new TextBox();
+    private TextBox textBoxForLastName = new TextBox();
+    private TextBox textBoxSertificate = new TextBox();
+    private DateBox dateBox = new DateBox();
+    private ListBox listBoxCourse = new ListBox();
 
 
 
-    WorkerUpdate(WorkerDTO workerDTO) {
-        this.workerDTO = workerDTO;
 
-    }
 
 
     WorkerUpdate(ChangeWorker changeWorker) {
         this.changeWorker = changeWorker;
+        createLayout();
     }
 
     public interface ChangeWorker {
@@ -50,9 +48,7 @@ public class WorkerUpdate {
         return workerDTO;
     }
 
-
-    void createDialogBox() {
-
+    void createLayout() {
         dialogBox.setGlassEnabled(true);
 
         verticalPanel.setSpacing(12);
@@ -60,31 +56,15 @@ public class WorkerUpdate {
         verticalPanel3.setSpacing(12);
 
         horizontalPanel.setSpacing(30);
-
-
-
-
         // Create a DateBox
         DateTimeFormat dateFormat = DateTimeFormat.getMediumDateFormat();
         dateBox.setFormat(new DateBox.DefaultFormat(dateFormat));
         dateBox.getDatePicker().setYearArrowsVisible(true);
         dateBox.getDatePicker().setVisibleYearCount(31);
 
-
         listBoxCourse.setVisibleItemCount(1);
         for (int i = 1; i <= 5; i++) {
             listBoxCourse.addItem("course " + i);
-        }
-        // if button "ADD" is pressed that "workerDTO == null"   ahd fields have to empty
-        if (workerDTO.getDef() != 0) {
-            textBoxForName.setText(workerDTO.getName());
-            textBoxForFirstName.setText(workerDTO.getFirstname());
-            textBoxForLastName.setText(workerDTO.getLastname());
-            textBoxSertificate.setText(String.valueOf(workerDTO.getNumberinv()));
-            dateBox.setValue(workerDTO.getAbc());
-
-        } else {
-            textBoxSertificate.setText("");
         }
 
 
@@ -96,7 +76,6 @@ public class WorkerUpdate {
         verticalPanel.add(textBoxForLastName);
         verticalPanel.add(new HTML("№ Sertificate"));
         verticalPanel.add(textBoxSertificate);
-
 
         Button removeWorker = new Button("REMOVE", new ClickHandler() {
             @Override
@@ -115,7 +94,7 @@ public class WorkerUpdate {
             public void onClick(ClickEvent event) {
 
 
-                workerDTO = updateWorker();
+                WorkerUpdate.this.workerDTO = updateWorker();
 
                 changeWorker.updateWorker(workerDTO);
 
@@ -151,6 +130,33 @@ public class WorkerUpdate {
 
 
         dialogBox.setWidget(horizontalPanel);
+
+
+    }
+
+
+    void createDialogBox(final WorkerDTO workerDTO) {
+        this.workerDTO = workerDTO;
+
+        // if button "ADD" is pressed that "workerDTO == null"   ahd fields have to empty
+        if (workerDTO.getDef() != 0) {
+            textBoxForName.setText(workerDTO.getName());
+            textBoxForFirstName.setText(workerDTO.getFirstname());
+            textBoxForLastName.setText(workerDTO.getLastname());
+            textBoxSertificate.setText(String.valueOf(workerDTO.getNumberinv()));
+            dateBox.setValue(workerDTO.getAbc());
+
+        } else {
+            textBoxForName.setText("");
+            textBoxForFirstName.setText("");
+            textBoxForLastName.setText("");
+            textBoxSertificate.setText("");
+            dateBox.setValue(null);
+        }
+
+
+
+
 
         dialogBox.setText("You selected  " + workerDTO.getDef());
 
